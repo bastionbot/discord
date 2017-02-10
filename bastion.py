@@ -26,7 +26,7 @@ async def on_ready():
 @client.event
 async def on_message(message):
     msgcontent = message.content
-    writecontent = msgcontent + '.\n'
+    writecontent = msgcontent + '\n'
     msgauthor = str(message.author)
     msg = []
     if not '274350023473496064' == message.author.id and not message.content.startswith('!') and 'BroBot' not in msgauthor:
