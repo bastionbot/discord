@@ -1,6 +1,5 @@
 import markovify
 
-
 def buildcorpus(state=3):
     with open("discord_corpus") as r:
        wcorpus = r.read()
