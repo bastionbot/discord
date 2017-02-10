@@ -1,6 +1,5 @@
 import discord
 import markov
-import sys
 import random
 import re
 
