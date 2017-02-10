@@ -12,7 +12,7 @@ def buildcorpus(state=3):
     f.seek(0)
     f.write(model_json)
     f.truncate()
-    model = markovify.Text.from_json(f)
+    model = markovify.Text.from_json(f.read())
 
     return model
 

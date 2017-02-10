@@ -3,6 +3,9 @@ import markov
 import random
 import re
 
+f = open("botkey", 'r')
+botkey = f.read()
+f.close()
 corpus = []
 client = discord.Client()
 trump = ['trump', 'Trump']
@@ -13,7 +16,7 @@ async def on_ready():
     print(client.user.name)
     print(client.user.id)
     print('------')
-    corpus[0] = markov.buildcorpus()
+    corpus = markov.buildcorpus()
     print('Corpus built')
     print('------')
 
@@ -29,14 +32,15 @@ async def on_message(message):
         wfile.close()
     if message.content.startswith('!markov'):
         try:
-            if message.content == '!markov':
-                msg.insert(0, markov.sayrandomshit(corpus[0]))
             tmp = str(message.content).split(' ')
-            if tmp[1] == 'tweet':
-                msg = [ markov.sayrandomshit(corpus[0], '1') ]
+            uarg = len(tmp)
+            if uarg == 1:
+                msg.insert(0, markov.sayrandomshit(corpus))
+            if uarg == 2:
+                msg = [ markov.sayrandomshit(corpus, tmp[1]) ]
             elif 0 < int(tmp[1]) <= 10 and tmp[1] != 'tweet':
                 for i in range(int(tmp[1])):
-                    msg.append(markov.sayrandomshit(corpus[0]))
+                    msg.append(markov.sayrandomshit(corpus))
         except ValueError:
             msg = [ 'Bad syntax. Use "!markov by itself or !markov tweet or !markov <number of lines> (1-10)' ]
         for send in msg:
@@ -46,4 +50,4 @@ async def on_message(message):
     elif any(word in trump for word in msgcontent.split(" ")):
         await client.send_message(message.channel, '_'+trumps[random.randrange(0,5)]+'*_')
 
-client.run("<bot key>")
+client.run(botkey)
