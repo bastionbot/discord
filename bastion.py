@@ -48,4 +48,4 @@ async def on_message(message):
 	elif any(word in trump for word in msgcontent.split(" ")):
 		await client.send_message(message.channel, '_'+trumps[random.randrange(0,5)]+'*_')
 
-client.run("Mjc0MzUwMDIzNDczNDk2MDY0.C2wz8w.v6u0tLTc3T0vc_-wbdZaX2FfBV8")
+client.run("<bot key>")
