@@ -4,19 +4,22 @@ import random
 import re
 
 f = open("botkey", 'r')
-botkey = f.read()
+botkey = str(f.readline())
 f.close()
-corpus = []
+corpus = [""]
+botkey = botkey.rstrip()
 client = discord.Client()
 trump = ['trump', 'Trump']
 trumps = ['Orangegropenfuhrer', 'hate mango', 'cheeto golem', 'Hair Furor', 'trumpster fire']
+
 @client.event
 async def on_ready():
     print('Logged in as')
     print(client.user.name)
     print(client.user.id)
     print('------')
-    corpus = markov.buildcorpus()
+    global corpus
+    corpus[0] = markov.buildcorpus()
     print('Corpus built')
     print('------')
 
@@ -35,12 +38,12 @@ async def on_message(message):
             tmp = str(message.content).split(' ')
             uarg = len(tmp)
             if uarg == 1:
-                msg.insert(0, markov.sayrandomshit(corpus))
+                msg.insert(0, markov.sayrandomshit(corpus[0]))
             if uarg == 2:
-                msg = [ markov.sayrandomshit(corpus, tmp[1]) ]
-            elif 0 < int(tmp[1]) <= 10 and tmp[1] != 'tweet':
-                for i in range(int(tmp[1])):
-                    msg.append(markov.sayrandomshit(corpus))
+                msg = [ markov.sayrandomshit(corpus[0], tmp[1]) ]
+ #           elif uarg == 2 and tmp[1] != 'tweet':
+ #               for i in range(int(tmp[1])):
+ #                   msg.append(markov.sayrandomshit(corpus[0]))
         except ValueError:
             msg = [ 'Bad syntax. Use "!markov by itself or !markov tweet or !markov <number of lines> (1-10)' ]
         for send in msg:

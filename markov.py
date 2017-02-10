@@ -3,19 +3,14 @@ import markovify
 
 def buildcorpus(state=3):
     with open("discord_corpus") as r:
-        corpus = r.read()
-    text_model = markovify.Text(corpus, state_size=state)
+       wcorpus = r.read()
+    text_model = markovify.Text(wcorpus, state_size=state)
     model_json = text_model.to_json()
-
     f = open("corpus.json", 'w+')
-
-    f.seek(0)
     f.write(model_json)
     f.truncate()
-    model = markovify.Text.from_json(f.read())
-
-    return model
-
+    f.seek(0)
+    return markovify.Text.from_json(f.read())
 
 def sayrandomshit(model=None, tw=None):
     if tw is not None:
