@@ -6,12 +6,15 @@ def buildcorpus(state=3):
         corpus = r.read()
     text_model = markovify.Text(corpus, state_size=state)
     model_json = text_model.to_json()
-    with open("corpus.json", 'w+') as f:
-        f.seek(0)
-        f.write(model_json)
-        f.truncate()
-        model = markovify.Text.from_json(f)
-        return model
+
+    f = open("corpus.json", 'w+')
+
+    f.seek(0)
+    f.write(model_json)
+    f.truncate()
+    model = markovify.Text.from_json(f)
+
+    return model
 
 
 def sayrandomshit(model=None, tw=None):
