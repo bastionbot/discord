@@ -48,8 +48,8 @@ async def on_message(message):
             msg = [ 'Bad syntax. Use "!markov by itself or !markov tweet or !markov <number of lines> (1-10)' ]
         for send in msg:
             await client.send_message(message.channel, send)
-    elif 'rad' in msgcontent:
-        await client.send_message(client.get_channel('193536175451930624'), 'hell yeah')
+#    elif 'rad' in msgcontent:
+ #       await client.send_message(client.get_channel('193536175451930624'), 'hell yeah')
     elif any(word in trump for word in msgcontent.split(" ")):
         await client.send_message(message.channel, '_'+trumps[random.randrange(0,5)]+'*_')
 
