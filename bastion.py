@@ -2,6 +2,7 @@ import discord
 import markov
 import random
 import re
+import sys
 
 f = open("botkey", 'r')
 botkey = str(f.readline())
@@ -22,6 +23,7 @@ async def on_ready():
     corpus[0] = markov.buildcorpus()
     print('Corpus built')
     print('------')
+    await client.send_message(client.get_channel('193536175451930624'), 'Bastionbot restarted')
 
 @client.event
 async def on_message(message):
