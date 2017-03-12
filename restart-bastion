@@ -1,0 +1,12 @@
+#!/bin/bash
+pkill screen
+cd /usr/local/bin/bastionbot
+let foo1=$(expr $(wc -l discord_corpus | cut -d ' ' -f 1) - 200000)
+if [ "$foo1" -ge "0" ]
+        then
+                split -l $foo1 discord_corpus
+                mv xab discord_corpus
+                cat xaa >> discord_archive
+                rm -f xaa
+fi
+screen -d -m python3 bastion.py
