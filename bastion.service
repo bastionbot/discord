@@ -1,0 +1,12 @@
+[Unit]
+Description=Oh god this bot is awful
+Wants=multi-user.target
+After=multi-user.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/bastion/bastionbot
+ExecRestart=/usr/local/bin/bastion/bastionbot
