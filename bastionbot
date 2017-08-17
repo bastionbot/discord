@@ -1,6 +1,6 @@
 #!/bin/bash
 pkill bastion.py
-cd /usr/local/bin/bastionbot
+cd /usr/local/bin/discord/
 let foo1=$(expr $(wc -l discord_corpus | cut -d ' ' -f 1) - 200000)
 if [ "$foo1" -ge "0" ]
         then
