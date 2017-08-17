@@ -3,7 +3,9 @@ import markov
 import random
 import re
 import sys
+import os
 
+os.chdir('/usr/local/bin/discord')
 f = open("botkey", 'r')
 botkey = str(f.readline())
 f.close()
