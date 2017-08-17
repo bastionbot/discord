@@ -9,4 +9,4 @@ WantedBy=multi-user.target
 [Service]
 Type=simple
 ExecStart=/usr/local/bin/bastion/bastionbot
-ExecRestart=/usr/local/bin/bastion/bastionbot
+ExecReload=/usr/local/bin/bastion/bastionbot
