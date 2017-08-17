@@ -1,5 +1,4 @@
 #!/bin/bash
-pkill screen
 cd /usr/local/bin/bastionbot
 let foo1=$(expr $(wc -l discord_corpus | cut -d ' ' -f 1) - 200000)
 if [ "$foo1" -ge "0" ]
@@ -8,4 +7,4 @@ if [ "$foo1" -ge "0" ]
                 tail -n +$foo1 discord_corpus > corpus_tmp
 		mv corpus_tmp discord_corpus
 fi
-screen -d -m python3 bastion.py
+python3 bastion.py
