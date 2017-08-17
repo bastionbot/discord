@@ -10,8 +10,6 @@ f.close()
 corpus = [""]
 botkey = botkey.rstrip()
 client = discord.Client()
-trump = ['trump', 'Trump']
-trumps = ['Orangegropenfuhrer', 'hate mango', 'cheeto golem', 'Hair Furor', 'trumpster fire']
 
 @client.event
 async def on_ready():
@@ -52,7 +50,5 @@ async def on_message(message):
             await client.send_message(message.channel, send)
 #    elif 'rad' in msgcontent:
  #       await client.send_message(client.get_channel('193536175451930624'), 'hell yeah')
-    elif any(word in trump for word in msgcontent.split(" ")):
-        await client.send_message(message.channel, '_'+trumps[random.randrange(0,5)]+'*_')
 
 client.run(botkey)
