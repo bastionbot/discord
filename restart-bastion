@@ -1,5 +1,5 @@
 #!/bin/bash
-systemctl stop bastionbot
+pkill screen
 cd /usr/local/bin/discord/
 let foo1=$(expr $(wc -l discord_corpus | cut -d ' ' -f 1) - 200000)
 if [ "$foo1" -ge "0" ]
@@ -8,4 +8,4 @@ if [ "$foo1" -ge "0" ]
                 tail -n +$foo1 discord_corpus > corpus_tmp
 		mv corpus_tmp discord_corpus
 fi
-systemctl start bastionbot
+screen -m -d bastion.py
