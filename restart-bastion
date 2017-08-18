@@ -8,4 +8,4 @@ if [ "$foo1" -ge "0" ]
                 tail -n +$foo1 discord_corpus > corpus_tmp
 		mv corpus_tmp discord_corpus
 fi
-screen -m -d bastion.py
+screen -m -d python3 bastion.py
