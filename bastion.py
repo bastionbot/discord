@@ -42,7 +42,7 @@ async def on_message(message):
         wfile = open("discord_corpus", "a")
         wfile.write(re.sub(r'<[@]?[&!]?[\d]*>','',writecontent))
         wfile.close()
-    if message.content.startswith('!tweet')
+    if message.content.startswith('!tweet'):
         try:
             tweet = api.PostUpdate(markov.sayrandomshit(corpus[0], 1))
             twitmsg = "https://twitter.com/SRSOC_Bastion/status/"+tweet.id_str
