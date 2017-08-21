@@ -4,8 +4,15 @@ import random
 import re
 import sys
 import os
+import twitter
 
 os.chdir('/usr/local/bin/discord')
+with open('twitkeys') as f:
+    lines = f.readlines()
+api = twitter.Api(consumer_key=lines[0].strip(), 
+                  consumer_secret=lines[1].strip(),
+                  access_token_key=lines[2].strip(),
+                  access_token_secret=lines[3].strip())
 f = open("botkey", 'r')
 botkey = str(f.readline())
 f.close()
@@ -35,6 +42,13 @@ async def on_message(message):
         wfile = open("discord_corpus", "a")
         wfile.write(re.sub(r'<[@]?[&!]?[\d]*>','',writecontent))
         wfile.close()
+    if message.content.startswith('!tweet')
+        try:
+            tweet = api.PostUpdate(markov.sayrandomshit(corpus[0], 1))
+            twitmsg = "https://twitter.com/SRSOC_Bastion/status/"+tweet.id_str
+            await client.send_message(message.channel, twitmsg)
+        except:
+            await client.send_message(message.channel, 'Failed to tweet :saddowns:')
     if message.content.startswith('!markov'):
         try:
             tmp = str(message.content).split(' ')
@@ -43,14 +57,9 @@ async def on_message(message):
                 msg.insert(0, markov.sayrandomshit(corpus[0]))
             if uarg == 2:
                 msg = [ markov.sayrandomshit(corpus[0], tmp[1]) ]
- #           elif uarg == 2 and tmp[1] != 'tweet':
- #               for i in range(int(tmp[1])):
- #                   msg.append(markov.sayrandomshit(corpus[0]))
         except ValueError:
             msg = [ 'Bad syntax. Use "!markov by itself or !markov tweet or !markov <number of lines> (1-10)' ]
         for send in msg:
             await client.send_message(message.channel, send)
-#    elif 'rad' in msgcontent:
- #       await client.send_message(client.get_channel('193536175451930624'), 'hell yeah')
 
 client.run(botkey)
