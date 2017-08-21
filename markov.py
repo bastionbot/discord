@@ -3,7 +3,7 @@ import markovify
 def buildcorpus(state=3):
     with open("discord_corpus") as r:
        wcorpus = r.read()
-    text_model = markovify.Text(wcorpus, state_size=state)
+    text_model = markovify.NewlineText(wcorpus, state_size=state)
     model_json = text_model.to_json()
     f = open("corpus.json", 'w+')
     f.write(model_json)
