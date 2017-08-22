@@ -19,7 +19,7 @@ f.close()
 corpus = [""]
 botkey = botkey.rstrip()
 client = discord.Client()
-msg = ''
+msg = {}
 
 @client.event
 async def on_ready():
@@ -45,16 +45,16 @@ async def on_message(message):
         wfile.close()
     if message.content.startswith('!tweet'):
         try:
-            tweet = api.PostUpdate(msg)
+            tweet = api.PostUpdate(msg[message.author.id])
             twitmsg = "https://twitter.com/SRSOC_Bastion/status/"+tweet.id_str
             await client.send_message(message.channel, twitmsg)
         except:
             await client.send_message(message.channel, 'Failed to tweet :saddowns:')
     if message.content.startswith('!markov'):
         try:
-            msg = markov.sayrandomshit(corpus[0])
-        except ValueError:
-            msg = 'Bad syntax. Use "!markov by itself or !markov tweet or !markov <number of lines> (1-10)'
-        await client.send_message(message.channel, msg)
+            msg[message.author.id] = markov.sayrandomshit(corpus[0])
+        except:
+            msg[message.author.id] = 'Something bad happened and I don\'t know what'
+        await client.send_message(message.channel, msg[message.author.id])
 
 client.run(botkey)
