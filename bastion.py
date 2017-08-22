@@ -5,6 +5,9 @@ import re
 import sys
 import os
 import twitter
+import threading
+import asyncore
+import time
 
 os.chdir('/usr/local/bin/discord')
 with open('twitkeys') as f:
@@ -13,6 +16,8 @@ api = twitter.Api(consumer_key=lines[0].strip(),
                   consumer_secret=lines[1].strip(),
                   access_token_key=lines[2].strip(),
                   access_token_secret=lines[3].strip())
+with open('oldMention') as f:
+    oldMention = f.readlines()[0].strip()
 f = open("botkey", 'r')
 botkey = str(f.readline())
 f.close()
@@ -21,6 +26,39 @@ botkey = botkey.rstrip()
 client = discord.Client()
 msg = {}
 
+class mentionHandler(threading.Thread):
+    def __init__(self, api, oldMention):
+        threading.Thread.__init__(self)
+        self.api = api
+        self.oldMention = oldMention
+        self.daemon = True
+        self.respond = {}
+
+    def run(self):
+        global corpus
+        while True:
+            self.respond = {}
+            with open("oldMention") as f:
+                self.oldMention = f.readlines()[0].strip()
+            time.sleep(60)
+            mentions = self.api.GetMentions(since_id=self.oldMention)
+            replies = self.api.GetReplies(since_id=self.oldMention)
+            for line in mentions:
+                if line.user.screen_name != "SRSOC_Bastion":
+                    self.respond[line.id_str] = line.user.screen_name
+            for line in replies:
+                if line.user.screen_name != "SRSOC_Bastion":
+                    self.respond[line.id_str] = line.user.screen_name
+            self.oldMention = sorted(self.respond.keys())[-1]
+            wfile = open("oldMention", "w")
+            wfile.write(self.oldMention)
+            wfile.close()
+            for i in self.respond.keys():
+               self.api.PostUpdate(status="@"+self.respond[i]+" "+markov.sayrandomtweet(corpus[0]), in_reply_to_status_id=+i)
+        
+t = mentionHandler(api, oldMention)
+t.start()
+                     
 @client.event
 async def on_ready():
     print('Logged in as')
