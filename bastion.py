@@ -40,7 +40,7 @@ class mentionHandler(threading.Thread):
             self.respond = {}
             with open("oldMention") as f:
                 self.oldMention = f.readlines()[0].strip()
-            time.sleep(60)
+            time.sleep(300)
             mentions = self.api.GetMentions(since_id=self.oldMention)
             replies = self.api.GetReplies(since_id=self.oldMention)
             for line in mentions:
@@ -49,12 +49,14 @@ class mentionHandler(threading.Thread):
             for line in replies:
                 if line.user.screen_name != "SRSOC_Bastion":
                     self.respond[line.id_str] = line.user.screen_name
+            if len(self.respond) is 0:
+                continue
             self.oldMention = sorted(self.respond.keys())[-1]
             wfile = open("oldMention", "w")
             wfile.write(self.oldMention)
             wfile.close()
             for i in self.respond.keys():
-               self.api.PostUpdate(status="@"+self.respond[i]+" "+markov.sayrandomtweet(corpus[0]), in_reply_to_status_id=+i)
+               self.api.PostUpdate(status="@"+self.respond[i]+" "+markov.sayrandomtweet(corpus[0]), in_reply_to_status_id=i)
         
 t = mentionHandler(api, oldMention)
 t.start()
