@@ -15,10 +15,16 @@ def sayrandomshit(model=None):
     return buildphrase(model)
 
 def sayrandomtweet(model=None):
-    return model.make_short_sentence(140)
+    return buildsmallphrase(model)
 
 def buildphrase(jsonmodel):
     phrase = None
     while phrase is None:
         phrase = jsonmodel.make_sentence()
+    return phrase
+
+def buildsmallphrase(jsonmodel):
+    phrase = None
+    while phrase is None:
+        phrase = jsonmodel.make_short_sentence(140)
     return phrase
