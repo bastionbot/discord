@@ -11,10 +11,11 @@ def buildcorpus(state=3):
     f.seek(0)
     return markovify.Text.from_json(f.read())
 
-def sayrandomshit(model=None, tw=None):
-    if tw is not None:
-        return model.make_short_sentence(140)
+def sayrandomshit(model=None):
     return buildphrase(model)
+
+def sayrandomtweet(model=None):
+    return model.make_short_sentence(140)
 
 def buildphrase(jsonmodel):
     phrase = None
