@@ -81,6 +81,7 @@ async def on_message(message):
     msgauthor = str(message.author)
     if not '274350023473496064' == message.author.id and not message.content.startswith('!') and 'BroBot' not in msgauthor:
         wfile = open("discord_corpus", "a")
+        writecontent = re.sub(r'http\S+', '', writecontent)
         wfile.write(re.sub(r'<[@]?[&!]?[\d]*>','',writecontent))
         wfile.close()
     if message.content.startswith('!tweet'):
