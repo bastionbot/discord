@@ -21,10 +21,14 @@ def buildphrase(jsonmodel):
     phrase = None
     while phrase is None:
         phrase = jsonmodel.make_sentence()
+    if "http" in phrase:
+        buildphrase(jsonmodel)
     return phrase
 
 def buildsmallphrase(jsonmodel):
     phrase = None
     while phrase is None:
         phrase = jsonmodel.make_short_sentence(140)
+    if "http" in phrase:
+        buildsmallphrase(jsonmodel)
     return phrase
