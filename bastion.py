@@ -25,6 +25,13 @@ corpus = [""]
 botkey = botkey.rstrip()
 client = discord.Client()
 msg = {}
+welcomeMsgStrings = []
+with open('welcome') as f:
+    welcomeMsgStrings = f.readlines()
+welcomeMsg1 = "> Welcome to Serious Overchill! "
+welcomeMsg3 = " Check the pins here in <#193536175451930624> on how to get your very own vanity roles for pretty colors and "
+welcomeMsg4 = "LFG pings. Stuck or have questions? Don\'t be afraid to ask a Kabalite or Mod in <#184804980794851328> for help! "
+welcomeMsg5 = "Brace yourself for a Bastion Thought™: ```"
 
 class mentionHandler(threading.Thread):
     def __init__(self, api, oldMention):
@@ -76,10 +83,11 @@ async def on_ready():
 @client.event
 async def on_message(message):
     global msg
+    global welcomeMsgStrings
     msgcontent = message.content
     writecontent = msgcontent + '\n'
     msgauthor = str(message.author)
-    if not '274350023473496064' == message.author.id and not message.content.startswith('!') and 'BroBot' not in msgauthor:
+    if not '274350023473496064' == message.author.id and not message.content.startswith('!') and 'BroBot' not in msgauthor and not message.channel.id == '282003155993231360':
         wfile = open("discord_corpus", "a")
         writecontent = re.sub(r'http\S+', '', writecontent)
         wfile.write(re.sub(r'<[@]?[&!]?[\d]*>','',writecontent))
@@ -97,5 +105,18 @@ async def on_message(message):
         except:
             msg[message.author.id] = 'Something bad happened and I don\'t know what'
         await client.send_message(message.channel, msg[message.author.id])
+    if message.content.startswith('!update') and message.channel.id == '282003155993231360':
+        welcomeMsgStrings.append(re.sub(r'!\w+\s', '', message.content))
+        wfile = open("welcome", "a")
+        writecontent = re.sub(r'!\w+\s', '', message.content) + '\n'
+        wfile.write(writecontent)
+        wfile.close()
+        await client.send_message(message.channel, 'Successfully updated the welcome packet with ```' + re.sub(r'!\w+\s', '', message.content) + '```')
+        
+@client.event
+async def on_member_join(member):
+    msg = "<@" + str(member.id) + welcomeMsg1 + random.choice(welcomeMsgStrings).strip() + welcomeMsg3 \
+    + welcomeMsg4 + welcomeMsg5 + markov.sayrandomshit(corpus[0]) + "```"
+    await client.send_message(client.get_channel('193536175451930624'), msg)
 
 client.run(botkey)
