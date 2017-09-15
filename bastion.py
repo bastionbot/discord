@@ -74,10 +74,6 @@ async def on_ready():
     print(client.user.name)
     print(client.user.id)
     print('------')
-    global corpus
-    corpus[0] = markov.buildcorpus()
-    print('Corpus built')
-    print('------')
     await client.send_message(client.get_channel('193536175451930624'), 'Bastionbot restarted')
 
 @client.event
@@ -118,5 +114,9 @@ async def on_member_join(member):
     msg = "<@" + str(member.id) + welcomeMsg1 + random.choice(welcomeMsgStrings).strip() + welcomeMsg3 \
     + welcomeMsg4 + welcomeMsg5 + markov.sayrandomshit(corpus[0]) + "```"
     await client.send_message(client.get_channel('193536175451930624'), msg)
+    
+corpus[0] = markov.buildcorpus()
+print('Corpus built')
+print('------')
 
 client.run(botkey)
