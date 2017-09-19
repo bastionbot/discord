@@ -11,7 +11,7 @@ def buildcorpus(state=3):
     f.seek(0)
     return markovify.Text.from_json(f.read())
 
-def sayrandomshit(model)#, keyword=None):
+def sayrandomshit(model):#, keyword=None):
     phrase = None
     while phrase is None:
         #if keyword is not None:
