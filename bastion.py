@@ -83,7 +83,7 @@ async def on_message(message):
     msgcontent = message.content
     writecontent = msgcontent + '\n'
     msgauthor = str(message.author)
-    if not '274350023473496064' == message.author.id and not message.content.startswith('!') and 'BroBot' not in msgauthor and not message.channel.id == '282003155993231360':
+    if not '274350023473496064' == message.author.id and not message.content.startswith('!') and 'BastionBot' not in msgauthor and 'BroBot' not in msgauthor and not message.channel.id == '282003155993231360':
         wfile = open("discord_corpus", "a")
         writecontent = re.sub(r'http\S+', '', writecontent)
         wfile.write(re.sub(r'<[@]?[&!]?[\d]*>','',writecontent))
@@ -97,7 +97,7 @@ async def on_message(message):
             await client.send_message(message.channel, 'Failed to tweet :saddowns:')
     if message.content.startswith('!markov'):
         try:
-            msg[message.author.id] = markov.sayrandomshit(corpus[0])
+            msg[message.author.id] = markov.sayrandomshit(corpus[0], str(re.sub(r'!\w+\s', '', msgcontent)))
         except:
             msg[message.author.id] = 'Something bad happened and I don\'t know what'
         await client.send_message(message.channel, msg[message.author.id])
