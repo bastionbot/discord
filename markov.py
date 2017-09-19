@@ -11,18 +11,18 @@ def buildcorpus(state=3):
     f.seek(0)
     return markovify.Text.from_json(f.read())
 
-def sayrandomshit(model, keyword=None):
+def sayrandomshit(model)#, keyword=None):
     phrase = None
     while phrase is None:
-        if keyword is not None:
-            phrase = model.make_sentence_with_start(keyword)
-        else:
-            phrase = model.make_sentence()
+        #if keyword is not None:
+        #    phrase = model.make_sentence_with_start(keyword)
+       # else:
+        phrase = model.make_sentence()
     if "http" in phrase:
-        if keyword is not None:
-            phrase = model.make_sentence_with_start(keyword)
-        else:
-            phrase = model.make_sentence()
+        #if keyword is not None:
+        #    phrase = model.make_sentence_with_start(keyword)
+        #else:
+        phrase = model.make_sentence()
     return phrase
 
 def sayrandomtweet(model):
