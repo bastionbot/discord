@@ -30,9 +30,9 @@ with open('welcome') as f:
     welcomeMsgStrings = f.readlines()
 with open("ignores") as f:
 	for line in f:
-		if line.split()[0] == "channel"
+		if line.split()[0] == "channel":
 			ignoreChannels.append(line.split[1])
-		elif line.split()[0] == "user"
+		elif line.split()[0] == "user":
 			ignoreUsers.append(line.split[1])
 
 welcomeMsg1 = "> Welcome to Serious Overchill! "
