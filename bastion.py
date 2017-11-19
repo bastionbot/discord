@@ -31,9 +31,9 @@ with open('welcome') as f:
 with open("ignores") as f:
 	for line in f:
 		if line.split()[0] == "channel":
-			ignoreChannels.append(line.split[1])
+			ignoreChannels.append(line.split()[1])
 		elif line.split()[0] == "user":
-			ignoreUsers.append(line.split[1])
+			ignoreUsers.append(line.split()[1])
 
 welcomeMsg1 = "> Welcome to Serious Overchill! "
 welcomeMsg3 = " Check the pins here in <#193536175451930624> on how to get your very own vanity roles for pretty colors and "
