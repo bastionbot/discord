@@ -21,13 +21,20 @@ with open('oldMention') as f:
 f = open("botkey", 'r')
 botkey = str(f.readline())
 f.close()
-corpus = [""]
+corpus, ignoreUsers, ignoreChannels = [""], [], []
 botkey = botkey.rstrip()
 client = discord.Client()
 msg = {}
 welcomeMsgStrings = []
 with open('welcome') as f:
     welcomeMsgStrings = f.readlines()
+with open("ignores") as f:
+	for line in f:
+		if line.split()[0] == "channel"
+			ignoreChannels.append(line.split[1])
+		elif line.split()[0] == "user"
+			ignoreUsers.append(line.split[1])
+
 welcomeMsg1 = "> Welcome to Serious Overchill! "
 welcomeMsg3 = " Check the pins here in <#193536175451930624> on how to get your very own vanity roles for pretty colors and "
 welcomeMsg4 = "LFG pings. Stuck or have questions? Don\'t be afraid to ask a Kabalite or Mod in <#184804980794851328> for help! "
@@ -83,7 +90,7 @@ async def on_message(message):
     msgcontent = message.content
     writecontent = msgcontent + '\n'
     msgauthor = str(message.author)
-    if not '274350023473496064' == message.author.id and not message.content.startswith('!') and 'BastionBot' not in msgauthor and 'BroBot' not in msgauthor and not message.channel.id == '282003155993231360':
+    if message.author.id not in ignoreUsers and not message.content.startswith('!') and message.channel.id not in ignoreChannels:
         wfile = open("discord_corpus", "a")
         writecontent = re.sub(r'http\S+', '', writecontent)
         wfile.write(re.sub(r'<[@]?[&!]?[\d]*>','',writecontent))
