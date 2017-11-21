@@ -15,17 +15,16 @@ def sayrandomshit(model, message):
     phrase = None
     try:
         keyword = " ".join(message.split()[1:].strip())
-        print(keyword)
     except:
         keyword = None
     while phrase is None:
-        if keyword is not None:
-            try:
-                phrase = model.make_sentence_with_start(keyword).split('___BEGIN__')[1]
-            except:
-                phrase = "Through no fault of my own, that didn't work."
-        elif phrase == "":
-            phrase = model.make_sentence()
+        #if keyword is not None:
+            #try:
+            #    phrase = model.make_sentence_with_start(keyword).split('___BEGIN__')[1]
+            #except:
+            #    phrase = "Through no fault of my own, that didn't work."
+        #else:
+        phrase = model.make_sentence()
         if "http" in phrase:
             phrase = None
     return phrase
