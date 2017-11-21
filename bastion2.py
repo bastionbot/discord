@@ -117,7 +117,7 @@ async def on_message(message):
 @client.event
 async def on_member_join(member):
     msg = "<@" + str(member.id) + welcomeMsg1 + random.choice(welcomeMsgStrings).strip() + welcomeMsg3 \
-    + welcomeMsg4 + welcomeMsg5 + markov.sayrandomshit(corpus[0]) + "```"
+    + welcomeMsg4 + welcomeMsg5 + markov.sayrandomshit(corpus[0], "foo") + "```"
     await client.send_message(client.get_channel(config['standard']['welcomechannel']), msg)
 
 config, corpus, t, welcomeMsgStrings, api = start()
