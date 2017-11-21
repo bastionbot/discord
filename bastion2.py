@@ -66,7 +66,7 @@ def stop():
         config.write(f)
 
 def writeCorpus(message):
-    writecontent = message.content + '\n'
+    writeContent = message.content + '\n'
     if message.author.id in config['ignoreUsers']['users'].split(',\n'):
         return
     if message.content.startswith('!'):
@@ -99,7 +99,7 @@ async def on_message(message):
             await client.send_message(message.channel, 'Failed to tweet :saddowns:')
     if message.content.startswith('!markov'):
         try:
-            msg[message.author.id] = markov.sayrandomshit(corpus[0])#, str(re.sub(r'!\w+\s', '', msgcontent)))
+            msg[message.author.id] = markov.sayrandomshit(corpus[0], message.content)#, str(re.sub(r'!\w+\s', '', msgcontent)))
         except:
             msg[message.author.id] = 'Something bad happened and I don\'t know what'
         await client.send_message(message.channel, msg[message.author.id])
