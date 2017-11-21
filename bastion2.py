@@ -110,7 +110,7 @@ async def on_message(message):
             wfile.write(re.sub(r'!\w+\s', '', message.content) + '\n')
         await client.send_message(message.channel, 'Successfully updated the welcome lines with ```' + re.sub(r'!\w+\s', '', message.content) + '```')
     if message.content.startswith('!list') and message.channel.id == config['DEFAULT']['adminchannel']:
-	for welcome in welcomeMsgStrings:
+        for welcome in welcomeMsgStrings:
             tempmsg += welcome = '\n'
 	await client.send_message(message.channel, "Current welcome strings:\n"+"```"+tempmsg+"```")
 
