@@ -56,7 +56,7 @@ def start():
         welcomeMsgStrings = f.readlines()
     twitkeys = dict(config['twitter'])  
     api = twitter.Api(**twitkeys)
-    t = mentionHandler(api, config['standard']['oldMention'])
+    t = mentionHandler(api, str(config['standard']['oldMention']))
     t.start()
     return config, corpus, t, welcomeMsgStrings
 
