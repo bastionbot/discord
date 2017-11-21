@@ -14,7 +14,7 @@ def buildcorpus(state=3):
 def sayrandomshit(model, message):
     phrase = None
     try:
-        keyword = " ".join(message.split()[1:])
+        keyword = " ".join(message.split()[1:].strip())
         print(keyword)
     except:
         keyword = None
