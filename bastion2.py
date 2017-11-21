@@ -9,6 +9,7 @@ import threading
 import asyncore
 import time
 import configparser
+import atexit
 
 corpus = [""]
 client = discord.Client()
@@ -54,19 +55,29 @@ def start():
 	corpus[0] = markov.buildcorpus()
 	config = configparser.ConfigParser()
 	config.read('config')
+	with open('welcome') as f:
+		welcomeMsgStrings = f.readlines()
 	twitter = config['twitter']
-    api = twitter.Api(**twitter)
+    	api = twitter.Api(**twitter)
 	return api, config, corpus
 
+@atexit.register
 def stop():
 	with open('config', 'w') as f:
 		config.write(f)
 
 def writeCorpus(message, writecontent):
     writecontent = message.content + '\n'
-    if message.author.id not in config['ignoreUsers'] and not message.content.startswith('!') and message.channel.id not in config['ignoreChannels']:
-        with open("discord_corpus", "a") as wfile:
-			wfile.write(re.sub(r'http\S+', '', re.sub(r'<[@]?[&!]?[\d]*>','',writecontent)))
+    if message.author.id in config['ignoreUsers']['users'].split(',\n'):
+	return
+    if message.content.startswith('!'):
+	return
+    if message.channel.id in config['ignoreChannels']['chans'].split(',\n'):
+	return
+    with open("discord_corpus", "a") as wfile:
+	removeLinks = re.sub(r'http\S+', '', writeContent)
+	removeMentions = re.sub(r'<[@]?[&!]?[\d]*>','', removeLinks)
+	wfile.write(removeMentions)
 
 @client.event
 async def on_ready():
@@ -74,7 +85,7 @@ async def on_ready():
     print(client.user.name)
     print(client.user.id)
     print('------')
-    await client.send_message(client.get_channel(config['botchannel']), 'Bastionbot restarted')
+    await client.send_message(client.get_channel(config['DEFAULT']['botchannel']), 'Bastionbot restarted')
 
 @client.event
 async def on_message(message):
@@ -94,12 +105,12 @@ async def on_message(message):
             msg[message.author.id] = 'Something bad happened and I don\'t know what'
         await client.send_message(message.channel, msg[message.author.id])
     if message.content.startswith('!update') and message.channel.id == config['DEFAULT']['adminchannel']:
-        config['DEFAULT']['welcomeMsgStrings'].append(re.sub(r'!\w+\s', '', message.content))
+        welcomeMsgStrings.append(re.sub(r'!\w+\s', '', message.content))
         with open("welcome", "a") as wfile:
-			wfile.write(re.sub(r'!\w+\s', '', message.content) + '\n')
-        await client.send_message(message.channel, 'Successfully updated the welcome packet with ```' + re.sub(r'!\w+\s', '', message.content) + '```')
+		wfile.write(re.sub(r'!\w+\s', '', message.content) + '\n')
+        await client.send_message(message.channel, 'Successfully updated the welcome lines with ```' + re.sub(r'!\w+\s', '', message.content) + '```')
     if message.content.startswith('!list') and message.channel.id == config['DEFAULT']['adminchannel']:
-	for welcome in config['DEFAULT']['welcomeMsgStrings']:
+	for welcome in welcomeMsgStrings:
 		tempmsg += welcome = '\n'
 	await client.send_message(message.channel, "Current welcome strings:\n"+"```"+tempmsg+"```")
 		
