@@ -58,7 +58,7 @@ def start():
     api = twitter.Api(**twitkeys)
     t = mentionHandler(api, str(config['standard']['oldMention']))
     t.start()
-    return config, corpus, t, welcomeMsgStrings
+    return config, corpus, t, welcomeMsgStrings, api
 
 @atexit.register
 def stop():
