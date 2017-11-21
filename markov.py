@@ -25,8 +25,8 @@ def sayrandomshit(model, message):
             #    phrase = "Through no fault of my own, that didn't work."
         #else:
         phrase = model.make_sentence()
-        if "http" in phrase:
-            phrase = None
+    if "http" in phrase:
+        phrase = model.make_sentence()
     return phrase
 
 def sayrandomtweet(model):
