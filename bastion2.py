@@ -120,7 +120,7 @@ async def on_member_join(member):
     + welcomeMsg4 + welcomeMsg5 + markov.sayrandomshit(corpus[0]) + "```"
     await client.send_message(client.get_channel(config['standard']['welcomechannel']), msg)
 
-config, corpus, t, welcomeMsgStrings = start()
+config, corpus, t, welcomeMsgStrings, api = start()
 print('Corpus built')
 print('------')
 client.run(config['standard']['botkey'])
