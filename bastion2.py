@@ -58,7 +58,7 @@ def start():
     api = twitter.Api(**twitkeys)
     t = mentionHandler(api, config['standard']['oldMention'])
     t.start()
-    return config, corpus, t
+    return config, corpus, t, welcomeMsgStrings
 
 @atexit.register
 def stop():
@@ -119,7 +119,7 @@ async def on_member_join(member):
     + welcomeMsg4 + welcomeMsg5 + markov.sayrandomshit(corpus[0]) + "```"
     await client.send_message(client.get_channel(config['standard']['welcomechannel']), msg)
 
-config, corpus, t = start()
+config, corpus, t, welcomeMsgStrings = start()
 print('Corpus built')
 print('------')
 client.run(config['standard']['botkey'])
