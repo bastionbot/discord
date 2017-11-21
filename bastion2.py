@@ -46,7 +46,7 @@ class mentionHandler(threading.Thread):
             for i in self.respond.keys():
                self.api.PostUpdate(status="@"+self.respond[i]+" "+markov.sayrandomtweet(corpus[0]), in_reply_to_status_id=i)
 
-t = mentionHandler(api, config['twitter']['oldMention'])
+t = mentionHandler(api, config['DEFAULT']['oldMention'])
 t.start()
 
 def start():
