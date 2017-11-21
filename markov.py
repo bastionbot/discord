@@ -21,7 +21,7 @@ def sayrandomshit(model, message):
         if keyword is not None:
             phrase = model.make_sentence_with_start(keyword)
         else:
-        phrase = model.make_sentence()
+            phrase = model.make_sentence()
         if "http" in phrase:
             phrase = None
     return phrase
