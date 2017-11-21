@@ -62,7 +62,6 @@ def start():
 
 @atexit.register
 def stop():
-    global config
     with open('config', 'w') as f:
         config.write(f)
 
