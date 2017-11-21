@@ -19,8 +19,9 @@ def sayrandomshit(model, message):
     except:
         keyword = None
     while phrase is None:
-        #if tries == 10:
-            #return "Failed to build phrase after 10 tries. Possible bad seed."
+        if tries == 10:
+            phrase = "Failed to build phrase after 10 tries. Possible bad seed."
+            break
         if keyword is not None:
             try:
                 phrase = model.make_sentence_with_start(keyword).split('___BEGIN__')[1]
@@ -30,7 +31,7 @@ def sayrandomshit(model, message):
             phrase = model.make_sentence()
         if "http" in phrase:
             phrase = None
-        #tries += 1
+        tries += 1
     return phrase
 
 def sayrandomtweet(model):
