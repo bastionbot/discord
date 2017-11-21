@@ -43,7 +43,7 @@ class mentionHandler(threading.Thread):
             if len(self.respond) is 0:
                 continue
             self.oldMention = sorted(self.respond.keys())[-1]
-			config['DEFAULT']['oldMention'] = self.oldMention
+		config['DEFAULT']['oldMention'] = self.oldMention
             for i in self.respond.keys():
                self.api.PostUpdate(status="@"+self.respond[i]+" "+markov.sayrandomtweet(corpus[0]), in_reply_to_status_id=i)
 
