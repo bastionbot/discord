@@ -90,7 +90,7 @@ async def on_ready():
 @client.event
 async def on_message(message):
     global msg
-	writeCorpus(message)
+    writeCorpus(message)
     if message.content.startswith('!tweet'):
         try:
             tweet = api.PostUpdate(msg[message.author.id])
@@ -107,11 +107,11 @@ async def on_message(message):
     if message.content.startswith('!update') and message.channel.id == config['DEFAULT']['adminchannel']:
         welcomeMsgStrings.append(re.sub(r'!\w+\s', '', message.content))
         with open("welcome", "a") as wfile:
-		wfile.write(re.sub(r'!\w+\s', '', message.content) + '\n')
+            wfile.write(re.sub(r'!\w+\s', '', message.content) + '\n')
         await client.send_message(message.channel, 'Successfully updated the welcome lines with ```' + re.sub(r'!\w+\s', '', message.content) + '```')
     if message.content.startswith('!list') and message.channel.id == config['DEFAULT']['adminchannel']:
 	for welcome in welcomeMsgStrings:
-		tempmsg += welcome = '\n'
+            tempmsg += welcome = '\n'
 	await client.send_message(message.channel, "Current welcome strings:\n"+"```"+tempmsg+"```")
 
 @client.event
