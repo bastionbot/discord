@@ -113,7 +113,7 @@ async def on_message(message):
 	for welcome in welcomeMsgStrings:
 		tempmsg += welcome = '\n'
 	await client.send_message(message.channel, "Current welcome strings:\n"+"```"+tempmsg+"```")
-		
+
 @client.event
 async def on_member_join(member):
     msg = "<@" + str(member.id) + welcomeMsg1 + random.choice(welcomeMsgStrings).strip() + welcomeMsg3 \
