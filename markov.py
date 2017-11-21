@@ -12,23 +12,21 @@ def buildcorpus(state=3):
     return markovify.Text.from_json(f.read())
 
 def sayrandomshit(model, message):
-    tries = 0
     phrase = None
     try:
         keyword= " ".join(message.split()[1:])
     except:
         keyword = None
-    while phrase is None and tries != 10:
+    while phrase is None:
         if keyword is not None:
             try:
                 phrase = model.make_sentence_with_start(keyword).split('___BEGIN__')[1]
             except:
-                continue
+                phrase = "Through no fault of my own, that didn't work."
         else:
             phrase = model.make_sentence()
         if "http" in phrase:
             phrase = None
-        tries += 1
     return phrase
 
 def sayrandomtweet(model):
