@@ -15,6 +15,7 @@ def sayrandomshit(model, message):
     phrase = None
     try:
         keyword = " ".join(message.split()[1:])
+        print(keyword)
     except:
         keyword = None
     while phrase is None:
