@@ -18,10 +18,7 @@ def sayrandomshit(model, message):
         keyword= " ".join(message.split()[1:])
     except:
         keyword = None
-    while phrase is None:
-        if tries == 10:
-            phrase = "Failed to build phrase after 10 tries. Possible bad seed."
-            break
+    while phrase is None and tries != 10:
         if keyword is not None:
             try:
                 phrase = model.make_sentence_with_start(keyword).split('___BEGIN__')[1]
