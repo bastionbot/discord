@@ -14,12 +14,15 @@ def buildcorpus(state=3):
 def sayrandomshit(model, message):
     phrase = None
     try:
-        keyword = message.split()[1]
+        keyword = message.split()[1:]
     except:
         keyword = None
     while phrase is None:
         if keyword is not None:
-            phrase = model.make_sentence_with_start(keyword).split('___BEGIN__')[1]
+            try:
+                phrase = model.make_sentence_with_start(keyword).split('___BEGIN__')[1]
+            except:
+                phrase = "Sorry, that word isn't in the corpus."
         else:
             phrase = model.make_sentence()
         if "http" in phrase:
