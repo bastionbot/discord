@@ -24,7 +24,7 @@ class mentionHandler(threading.Thread):
     def __init__(self, api, oldMention):
         threading.Thread.__init__(self)
         self.api = api
-        self.oldMention = config['DEFAULT']['oldMention']
+        self.oldMention = config['standard']['oldMention']
         self.daemon = True
         self.respond = {}
 
@@ -43,7 +43,7 @@ class mentionHandler(threading.Thread):
             if len(self.respond) is 0:
                 continue
             self.oldMention = sorted(self.respond.keys())[-1]
-            config['DEFAULT']['oldMention'] = self.oldMention
+            config['standard']['oldMention'] = self.oldMention
             for i in self.respond.keys():
                self.api.PostUpdate(status="@"+self.respond[i]+" "+markov.sayrandomtweet(corpus[0]), in_reply_to_status_id=i)
 
@@ -54,29 +54,29 @@ def start():
     config.read('config')
     with open('welcome') as f:
         welcomeMsgStrings = f.readlines()
-    twitter = config['twitter']
+    twitter = dict(config['twitter'])  
     api = twitter.Api(**twitter)
-    t = mentionHandler(api, config['DEFAULT']['oldMention'])
+    t = mentionHandler(api, config['standard']['oldMention'])
     t.start()
     return config, corpus, t
 
 @atexit.register
 def stop(config):
-	with open('config', 'w') as f:
-		config.write(f)
+    with open('config', 'w') as f:
+        config.write(f)
 
 def writeCorpus(message, writecontent):
     writecontent = message.content + '\n'
     if message.author.id in config['ignoreUsers']['users'].split(',\n'):
-	    return
+        return
     if message.content.startswith('!'):
-	    return
+        return
     if message.channel.id in config['ignoreChannels']['chans'].split(',\n'):
-	    return
+        return
     with open("discord_corpus", "a") as wfile:
-	    removeLinks = re.sub(r'http\S+', '', writeContent)
-	    removeMentions = re.sub(r'<[@]?[&!]?[\d]*>','', removeLinks)
-	    wfile.write(removeMentions)
+        removeLinks = re.sub(r'http\S+', '', writeContent)
+        removeMentions = re.sub(r'<[@]?[&!]?[\d]*>','', removeLinks)
+        wfile.write(removeMentions)
 
 @client.event
 async def on_ready():
@@ -84,7 +84,7 @@ async def on_ready():
     print(client.user.name)
     print(client.user.id)
     print('------')
-    await client.send_message(client.get_channel(config['DEFAULT']['botchannel']), 'Bastionbot restarted')
+    await client.send_message(client.get_channel(config['standard']['botchannel']), 'Bastionbot restarted')
 
 @client.event
 async def on_message(message):
@@ -103,12 +103,12 @@ async def on_message(message):
         except:
             msg[message.author.id] = 'Something bad happened and I don\'t know what'
         await client.send_message(message.channel, msg[message.author.id])
-    if message.content.startswith('!update') and message.channel.id == config['DEFAULT']['adminchannel']:
+    if message.content.startswith('!update') and message.channel.id == config['standard']['adminchannel']:
         welcomeMsgStrings.append(re.sub(r'!\w+\s', '', message.content))
         with open("welcome", "a") as wfile:
             wfile.write(re.sub(r'!\w+\s', '', message.content) + '\n')
         await client.send_message(message.channel, 'Successfully updated the welcome lines with ```' + re.sub(r'!\w+\s', '', message.content) + '```')
-    if message.content.startswith('!list') and message.channel.id == config['DEFAULT']['adminchannel']:
+    if message.content.startswith('!list') and message.channel.id == config['standard']['adminchannel']:
         for welcome in welcomeMsgStrings:
             tempmsg += welcome + '\n'
         await client.send_message(message.channel, "Current welcome strings:\n"+"```"+tempmsg+"```")
@@ -117,9 +117,9 @@ async def on_message(message):
 async def on_member_join(member):
     msg = "<@" + str(member.id) + welcomeMsg1 + random.choice(welcomeMsgStrings).strip() + welcomeMsg3 \
     + welcomeMsg4 + welcomeMsg5 + markov.sayrandomshit(corpus[0]) + "```"
-    await client.send_message(client.get_channel(config['DEFAULT']['welcomechannel']), msg)
+    await client.send_message(client.get_channel(config['standard']['welcomechannel']), msg)
 
 print('Corpus built')
 print('------')
 start()
-client.run(config['DEFAULT']['botkey'])
+client.run(config['standard']['botkey'])
