@@ -12,7 +12,6 @@ import configparser
 import atexit
 
 corpus = [""]
-config = {}
 client = discord.Client()
 msg = {}
 
@@ -62,7 +61,7 @@ def start():
     return config, corpus, t
 
 @atexit.register
-def stop():
+def stop(config):
 	with open('config', 'w') as f:
 		config.write(f)
 
