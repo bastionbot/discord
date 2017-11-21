@@ -65,7 +65,7 @@ def stop():
     with open('config', 'w') as f:
         config.write(f)
 
-def writeCorpus(message, writecontent):
+def writeCorpus(message):
     writecontent = message.content + '\n'
     if message.author.id in config['ignoreUsers']['users'].split(',\n'):
         return
@@ -119,7 +119,7 @@ async def on_member_join(member):
     + welcomeMsg4 + welcomeMsg5 + markov.sayrandomshit(corpus[0]) + "```"
     await client.send_message(client.get_channel(config['standard']['welcomechannel']), msg)
 
+config, corpus, t = start()
 print('Corpus built')
 print('------')
-config, corpus, t = start()
 client.run(config['standard']['botkey'])
