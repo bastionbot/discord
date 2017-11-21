@@ -54,14 +54,15 @@ def start():
     config.read('config')
     with open('welcome') as f:
         welcomeMsgStrings = f.readlines()
-    twitter = dict(config['twitter'])  
-    api = twitter.Api(**twitter)
+    twitkeys = dict(config['twitter'])  
+    api = twitter.Api(**twitkeys)
     t = mentionHandler(api, config['standard']['oldMention'])
     t.start()
     return config, corpus, t
 
 @atexit.register
-def stop(config):
+def stop():
+    global config
     with open('config', 'w') as f:
         config.write(f)
 
