@@ -111,7 +111,7 @@ async def on_message(message):
     if message.content.startswith('!list') and message.channel.id == config['standard']['adminchannel']:
         tempmsg = ""
         for welcome in welcomeMsgStrings:
-            tempmsg += welcome + '\n'
+            tempmsg += welcome
         await client.send_message(message.channel, "Current welcome strings:\n"+"```"+tempmsg+"```")
 
 @client.event
