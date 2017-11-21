@@ -121,5 +121,5 @@ async def on_member_join(member):
 
 print('Corpus built')
 print('------')
-start()
+config, corpus, t = start()
 client.run(config['standard']['botkey'])
