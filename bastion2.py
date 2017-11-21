@@ -12,6 +12,7 @@ import configparser
 import atexit
 
 corpus = [""]
+config = {}
 client = discord.Client()
 msg = {}
 
@@ -58,7 +59,7 @@ def start():
     api = twitter.Api(**twitter)
     t = mentionHandler(api, config['DEFAULT']['oldMention'])
     t.start()
-    return api, config, corpus, t
+    return config, corpus, t
 
 @atexit.register
 def stop():
