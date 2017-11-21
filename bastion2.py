@@ -51,15 +51,15 @@ t = mentionHandler(api, config['DEFAULT']['oldMention'])
 t.start()
 
 def start():
-	os.chdir('/usr/local/bin/discord')
-	corpus[0] = markov.buildcorpus()
-	config = configparser.ConfigParser()
-	config.read('config')
-	with open('welcome') as f:
+    os.chdir('/usr/local/bin/discord')
+    corpus[0] = markov.buildcorpus()
+    config = configparser.ConfigParser()
+    config.read('config')
+    with open('welcome') as f:
         welcomeMsgStrings = f.readlines()
-	twitter = config['twitter']
+    twitter = config['twitter']
     api = twitter.Api(**twitter)
-	return api, config, corpus
+    return api, config, corpus
 
 @atexit.register
 def stop():
