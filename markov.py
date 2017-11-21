@@ -23,7 +23,7 @@ def sayrandomshit(model, message):
                 phrase = model.make_sentence_with_start(keyword).split('___BEGIN__')[1]
             except:
                 phrase = "Through no fault of my own, that didn't work."
-        else:
+        elif phrase == "":
             phrase = model.make_sentence()
         if "http" in phrase:
             phrase = None
