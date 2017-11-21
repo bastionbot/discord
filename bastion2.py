@@ -24,7 +24,7 @@ class mentionHandler(threading.Thread):
     def __init__(self, api, oldMention):
         threading.Thread.__init__(self)
         self.api = api
-        self.oldMention = config['standard']['oldMention']
+        self.oldMention = oldMention
         self.daemon = True
         self.respond = {}
 
