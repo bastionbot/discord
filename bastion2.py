@@ -56,9 +56,9 @@ def start():
 	config = configparser.ConfigParser()
 	config.read('config')
 	with open('welcome') as f:
-		welcomeMsgStrings = f.readlines()
+        welcomeMsgStrings = f.readlines()
 	twitter = config['twitter']
-    	api = twitter.Api(**twitter)
+    api = twitter.Api(**twitter)
 	return api, config, corpus
 
 @atexit.register
@@ -69,15 +69,15 @@ def stop():
 def writeCorpus(message, writecontent):
     writecontent = message.content + '\n'
     if message.author.id in config['ignoreUsers']['users'].split(',\n'):
-	return
+	    return
     if message.content.startswith('!'):
-	return
+	    return
     if message.channel.id in config['ignoreChannels']['chans'].split(',\n'):
-	return
+	    return
     with open("discord_corpus", "a") as wfile:
-	removeLinks = re.sub(r'http\S+', '', writeContent)
-	removeMentions = re.sub(r'<[@]?[&!]?[\d]*>','', removeLinks)
-	wfile.write(removeMentions)
+	    removeLinks = re.sub(r'http\S+', '', writeContent)
+	    removeMentions = re.sub(r'<[@]?[&!]?[\d]*>','', removeLinks)
+	    wfile.write(removeMentions)
 
 @client.event
 async def on_ready():
