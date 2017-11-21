@@ -47,9 +47,6 @@ class mentionHandler(threading.Thread):
             for i in self.respond.keys():
                self.api.PostUpdate(status="@"+self.respond[i]+" "+markov.sayrandomtweet(corpus[0]), in_reply_to_status_id=i)
 
-t = mentionHandler(api, config['DEFAULT']['oldMention'])
-t.start()
-
 def start():
     os.chdir('/usr/local/bin/discord')
     corpus[0] = markov.buildcorpus()
@@ -59,7 +56,9 @@ def start():
         welcomeMsgStrings = f.readlines()
     twitter = config['twitter']
     api = twitter.Api(**twitter)
-    return api, config, corpus
+    t = mentionHandler(api, config['DEFAULT']['oldMention'])
+    t.start()
+    return api, config, corpus, t
 
 @atexit.register
 def stop():
