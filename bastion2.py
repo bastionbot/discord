@@ -112,7 +112,7 @@ async def on_message(message):
     if message.content.startswith('!list') and message.channel.id == config['DEFAULT']['adminchannel']:
         for welcome in welcomeMsgStrings:
             tempmsg += welcome + '\n'
-	await client.send_message(message.channel, "Current welcome strings:\n"+"```"+tempmsg+"```")
+        await client.send_message(message.channel, "Current welcome strings:\n"+"```"+tempmsg+"```")
 
 @client.event
 async def on_member_join(member):
@@ -124,4 +124,3 @@ print('Corpus built')
 print('------')
 start()
 client.run(config['DEFAULT']['botkey'])
-stop()
