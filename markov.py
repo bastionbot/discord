@@ -19,7 +19,7 @@ def sayrandomshit(model, message):
         keyword = None
     while phrase is None:
         if keyword is not None:
-            phrase = model.make_sentence_with_start(keyword)
+            phrase = model.make_sentence_with_start(keyword).split('___BEGIN__')[1]
         else:
             phrase = model.make_sentence()
         if "http" in phrase:
