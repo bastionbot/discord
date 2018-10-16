@@ -1,7 +1,7 @@
 #!/bin/bash
 pkill screen
 cd /usr/local/bin/discord/
-let foo1=$(expr $(wc -l discord_corpus | cut -d ' ' -f 1) - 200000)
+let foo1=$(expr $(wc -l discord_corpus | cut -d ' ' -f 1) - 2000000)
 if [ "$foo1" -ge "0" ]
         then
                 head -n $foo1 discord_corpus >> discord_archive
