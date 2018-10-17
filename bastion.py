@@ -11,6 +11,7 @@ import time
 import configparser
 import atexit
 import sqlite3
+import handler
 
 corpus = [""]
 client = discord.Client()
