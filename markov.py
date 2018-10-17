@@ -1,15 +1,26 @@
 import markovify
+import sched
+import datetime
+import time
+import sqlite3
+import re
 
-def buildcorpus(state=3):
-    with open("discord_corpus") as r:
-       wcorpus = r.read()
+def buildcorpus(state=3, db): #This is currently broken.
+    wcorpus = []
+    c = db.cursor()
+    for x in c.execute("SELECT message FROM chathistory WHERE date >?",datetime.timedelta(days=-7)):
+        removeLinks = re.sub(r'http\S+', '', x)
+        wcorpus.append(re.sub(r'<[@]?[&!]?[\d]*>','', removeLinks))
     text_model = markovify.NewlineText(wcorpus, state_size=state)
     model_json = text_model.to_json()
     f = open("corpus.json", 'w+')
     f.write(model_json)
     f.truncate()
     f.seek(0)
-    return markovify.Text.from_json(f.read())
+    return
+
+def getcorpus(): #unused (yet)
+    return markovify.Text.from_json(open("corpus.json").read())
 
 def sayrandomshit(model, message):
     phrase = None
