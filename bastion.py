@@ -16,6 +16,7 @@ import handler
 corpus = [""]
 client = discord.Client()
 msg = {}
+db = sqlite3.connect('bastion.db')
 
 welcomeMsg1 = "> Welcome to Serious Overchill! "
 welcomeMsg3 = "Check the pins here in <#193536175451930624> on how to get your very own vanity roles for pretty colors and "
@@ -49,8 +50,17 @@ class mentionHandler(threading.Thread):
             for i in self.respond.keys():
                self.api.PostUpdate(status="@"+self.respond[i]+" "+markov.sayrandomtweet(corpus[0]), in_reply_to_status_id=i)
 
+class scheduleHandler(threading.Thread): #not working yet, everything is broken
+    def __init__(self):
+        threading.Thread.__init__(self)
+        self.s = sched.scheduler(datetime.datetime, time.sleep)
+        self.daemon = True
+    def run(self):
+        self.s.enterabs(datetime.datetime + datetime.timedelta(days=7), 2, markov.buildcorpus)
+            
 def start():
     os.chdir('/usr/local/bin/discord')
+    s.enterabs(datetime.datetime + datetime.timedelta(days=7), 2, buildcorpus)
     corpus[0] = markov.buildcorpus()
     config = configparser.ConfigParser()
     config.read('config')
@@ -60,25 +70,14 @@ def start():
     api = twitter.Api(**twitkeys)
     t = mentionHandler(api, str(config['standard']['oldMention']))
     t.start()
-    return config, corpus, t, welcomeMsgStrings, api
+    s = scheduleHandler()
+    s.start()
+    return config, corpus, t, s, welcomeMsgStrings, api
 
 @atexit.register
 def stop():
     with open('config', 'w') as f:
         config.write(f)
-
-def writeCorpus(message):
-    writeContent = message.content + '\n'
-    if message.author.id in config['ignoreUsers']['users'].split(',\n'):
-        return
-    if message.content.startswith('!'):
-        return
-    if message.channel.id in config['ignoreChannels']['chans'].split(',\n'):
-        return
-    with open("discord_corpus", "a") as wfile:
-        removeLinks = re.sub(r'http\S+', '', writeContent)
-        removeMentions = re.sub(r'<[@]?[&!]?[\d]*>','', removeLinks)
-        wfile.write(removeMentions)
 
 @client.event
 async def on_ready():
@@ -91,7 +90,7 @@ async def on_ready():
 @client.event
 async def on_message(message):
     global msg
-    writeCorpus(message)
+    handler.writeCorpus(message, db)
     handler.message(message)
 
 @client.event
@@ -100,7 +99,7 @@ async def on_member_join(member):
     + welcomeMsg4 + welcomeMsg5 + markov.sayrandomshit(corpus[0], "foo") + "```"
     await client.send_message(client.get_channel(config['standard']['botchannel']), msg)
 
-config, corpus, t, welcomeMsgStrings, api = start()
+config, corpus, t, s, welcomeMsgStrings, api = start()
 print('Corpus built')
 print('------')
 client.run(config['standard']['botkey'])
