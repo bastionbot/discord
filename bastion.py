@@ -1,17 +1,26 @@
 from configparser import ConfigParser
 
-from discord import Client
+from discord.ext.commands import Bot, command
 
 
-class BastionBot(Client):
+class BastionBot(Bot):
 
     async def on_ready(self):
         print('Logged on as {0}!'.format(self.user))
 
-    async def on_message(self, message):
-        print('Message from {0.author}: {0.content}'.format(message))
+def main():
+    config = ConfigParser()
+    config.read('config.ini')
+    bastion = BastionBot('!')
 
-config = ConfigParser()
-config.read('config.ini')
-bastion = BastionBot()
-bastion.run(config["client"]["token"])
+    @bastion.command()
+    async def hello(ctx, arg):
+        await ctx.send(arg)
+
+    # bastion.load_extension('commands.greetings')
+
+    bastion.run(config["client"]["token"])
+
+
+if __name__ == '__main__':
+    main()
