@@ -1,20 +1,23 @@
 from discord import Member
-from discord.ext.commands import Cog, command
+from discord.ext.commands import Cog, command, group
 
-class Greetings(Cog):
+class Greetings(Cog, name='greetings'):
     def __init__(self, bot):
         self.bot = bot
         self._last_member = None
 
-    @Cog.listener()
-    async def on_member_join(self, member):
-        channel = member.guild.system_channel
-        if channel is not None:
-            await channel.send('Welcome {0.mention}.'.format(member))
-
-    @command()
-    async def hello(self, ctx, *, member: Member = None):
+    @group()
+    async def hello(self, ctx):
         """Says hello"""
+        if ctx.invoked_subcommand is None:
+            await ctx.send('Command not found.')
+
+    @hello.command()
+    async def world(self, ctx):
+        await ctx.send('world!')
+
+    @hello.command()
+    async def member(self, ctx, *, member: Member = None):
         member = member or ctx.author
         if self._last_member is None or self._last_member.id != member.id:
             await ctx.send('Hello {0.name}~'.format(member))
