@@ -1,6 +1,6 @@
 from configparser import ConfigParser
 
-from discord.ext.commands import Bot, command
+from discord.ext.commands import Bot, command, when_mentioned
 
 
 class BastionBot(Bot):
@@ -11,13 +11,9 @@ class BastionBot(Bot):
 def main():
     config = ConfigParser()
     config.read('config.ini')
-    bastion = BastionBot('!')
+    bastion = BastionBot(when_mentioned)
 
-    @bastion.command()
-    async def hello(ctx, arg):
-        await ctx.send(arg)
-
-    # bastion.load_extension('commands.greetings')
+    bastion.load_extension('commands.greetings')
 
     bastion.run(config["client"]["token"])
 

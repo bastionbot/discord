@@ -1,4 +1,5 @@
-from discord.ext.commands import Cog, commands
+from discord import Member
+from discord.ext.commands import Cog, command
 
 class Greetings(Cog):
     def __init__(self, bot):
@@ -12,7 +13,7 @@ class Greetings(Cog):
             await channel.send('Welcome {0.mention}.'.format(member))
 
     @command()
-    async def hello(self, ctx, *, member: discord.Member = None):
+    async def hello(self, ctx, *, member: Member = None):
         """Says hello"""
         member = member or ctx.author
         if self._last_member is None or self._last_member.id != member.id:
