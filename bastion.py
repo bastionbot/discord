@@ -14,6 +14,7 @@ def main():
     bastion = BastionBot(when_mentioned)
 
     bastion.load_extension('commands.greetings')
+    bastion.load_extension('commands.misc')
 
     bastion.run(config["client"]["token"])
 
