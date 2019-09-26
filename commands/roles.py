@@ -43,7 +43,7 @@ class Roles(Cog):
             'color': 0x40FEF3,
             'fields': [{
                 'name': 'Roles',
-                'value': '\n'.join([role.name for role in roles]),
+                'value': '\n'.join([role.name for role in roles])+'\a',
             }],
         })
 
