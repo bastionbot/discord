@@ -1,4 +1,4 @@
-from discord import utils, Embed
+from discord import utils, Embed, role
 from discord.ext.commands import Cog, command, group
 
 class Roles(Cog):
@@ -32,7 +32,10 @@ class Roles(Cog):
         """
         roles = self._get_available_roles(ctx.guild)
         roles.reverse()
-
+        if roles == []:
+            noroles = role.Role
+            noroles.name = 'Could not find any roles!'
+            roles.append(noroles)
         # We will probably have to paginate this later
         embed = Embed.from_dict({
             'author': {
@@ -43,7 +46,7 @@ class Roles(Cog):
             'color': 0x40FEF3,
             'fields': [{
                 'name': 'Roles',
-                'value': '\n'.join([role.name for role in roles])+'\a',
+                'value': '\n'.join([role.name for role in roles]),
             }],
         })
 
