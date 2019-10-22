@@ -1,9 +1,12 @@
-import threading, datetime
+import threading
+import datetime
+
+from discord.ext.commands import Cog, command
 import bs4 as bs
 
-class perpetualTimer():
+class PerpetualTimer():
 
-    def __init__(self,t,hFunction,name):
+    def __init__(self, t,hFunction,name):
         self.t=t
         self._name=name
         self.hFunction = hFunction
@@ -33,30 +36,58 @@ def gofundme(url):
         donations.append(litag.text)
     clean = {x[0]: x[1] for x in [don.split('\xa0') for don in donations] if len(x) ==3}
 
-@command()
-async def track(self, ctx, *, command):
-    """
-    Give the bot a URL to track a gofundme! E.g. @ bastion track https://www.gofundme.com/f/help-ben-finish-college start
-    Bastion will keep tabs on the latest contributors and announce progress milestones
-    List currently tracked gofundmes with @ bastion track list
-    Stop tracking a gofundme with @ bastion track # stop
-    """
-    cmd = command.split(' ')
-    if cmd[-1] == 'stop':
-        stop(cmd[-2])
-    elif cmd[-1] == 'list':
-        list()
-    elif cmd[-1] == 'start':
-        t = perpetualTimer(60.0,gofundme,[cmd[-2]],cmd[-2].split(' ')[2].split('/')[-1])
-        t.start()
-    else:
+
+class Track(Cog):
+
+    def _get_tracking_threads(self):
+        return threading.enumerate()[:1]
+
+    @group()
+    async def track(self, ctx):
+        """
+        Gofundme tracking commands
+        """
+        if ctx.invoked_subcommand is not None:
+            return
         await ctx.send(f'Command not found. Type `@{self.bot.user} help track` for a list of commands.')
 
-    def stop(name):
-        threads = threading.enumerate()[1:]
-        for i in range(len(threads)):
-            if name in str(threads[i]):
-                threads[i].cancel()
-    def list():
-        threads = ['{}. {}'.format(i,x._name) for i,x in enumerate(threading.enumerate()[1:],1)]
+    @track.command()
+    async def stop(self, ctx, *, name):
+        """
+        Stops an active tracking by name. See the list command for a list of currently active tracking.
+        """
+        threads = {thread.name: thread for thread in self._get_tracking_threads()}
+        thread = threads.get(name)
+        if thread:
+            thread.cancel()
+            await ctx.send(f"Tracking of {name} stopped successfully.")
+            return
+        await ctx.send(
+            f"Tracking by the name of {name} not found. Did you spell the name correctly?"
+            f"Type `@{self.bot.user} track list` for a list of active tracking"
+        )
+
+    async def list(self, ctx):
+        """
+        List currently tracked gofundmes.
+        """
+        threads = [f'{i}) {thread.name}' for i, thread in enumerate(self._get_tracking_threads(), 1)]
         await ctx.send('I\'m currently tracking the following GoFundMe pages!\n >>> '+ '\n'.join(threads))
+
+    @track.command()
+    async def track(self, ctx, url):
+        """
+        Give the bot a URL to track a gofundme! E.g. @Bastion track https://www.gofundme.com/f/help-ben-finish-college
+        Bastion will keep tabs on the latest contributors and announce progress milestones.
+        """
+        name = url.split('/')[-1]
+        # We probably want to add validation to the URL...
+        t = PerpetualTimer(60.0, gofundme, name, url)
+        t.start()
+        else:
+            await ctx.send(f'Command not found. Type `@{self.bot.user} help track` for a list of commands.')
+
+
+
+def setup(bot):
+    bot.add_cog(Track(bot))

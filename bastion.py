@@ -23,6 +23,7 @@ def main():
                          fetch_offline_members=False)
     bastion.load_extension('commands.roles')
     bastion.load_extension('commands.misc')
+    bastion.load_extension('commands.gofundme')
 
     bastion.run(config['client']['token'])
 
