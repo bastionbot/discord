@@ -55,7 +55,8 @@ class Track(Cog):
     @track.command()
     async def stop(self, ctx, name):
         """
-        Stops an active tracking by name. See the list command for a list of currently active tracking.
+        Stops an active tracking by name.
+        See the list command for a list of currently active tracking.
         """
         threads = {thread.name: thread for thread in self._get_tracking_threads()}
         thread = threads.get(name)
@@ -68,6 +69,7 @@ class Track(Cog):
             f"Type `@{self.bot.user} track list` for a list of active tracking"
         )
 
+    @track.command()
     async def list(self, ctx):
         """
         List currently tracked gofundmes.
@@ -76,9 +78,10 @@ class Track(Cog):
         await ctx.send('I\'m currently tracking the following GoFundMe pages!\n >>> '+ '\n'.join(threads))
 
     @track.command()
-    async def track(self, ctx, url):
+    async def start(self, ctx, url):
         """
-        Give the bot a URL to track a gofundme! E.g. @Bastion track https://www.gofundme.com/f/help-ben-finish-college
+        Give the bot a URL to track a gofundme!
+        E.g. @Bastion track start https://www.gofundme.com/f/help-ben-finish-college
         Bastion will keep tabs on the latest contributors and announce progress milestones.
         """
         name = url.split('/')[-1]
@@ -88,4 +91,4 @@ class Track(Cog):
 
 
 def setup(bot):
-    bot.add_cog(Track(bot))
+    bot.add_cog(Track())
