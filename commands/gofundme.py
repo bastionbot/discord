@@ -13,8 +13,8 @@ class PerpetualTimer():
         self.fn_kwargs = fn_kwargs
         self.thread = Timer(self.timeout, self.handle_function)
 
-    def handle_function(self):
-        self.fn(*self.fn_args, **self.fn_kwargs)
+    async def handle_function(self):
+        await self.fn(*self.fn_args, **self.fn_kwargs)
         self.thread = Timer(self.timeout, self.handle_function)
         self.thread.start()
 
@@ -24,8 +24,8 @@ class PerpetualTimer():
     def cancel(self):
         self.thread.cancel()
 
-def gofundme(ctx, url):
-    ctx.send("gofundme")
+async def gofundme(ctx, url):
+    await ctx.send("gofundme")
     print("gofundme")
     if url.split(' ')[-1:].startswith('http'):
         html = bs(urllib.request.urlopen(url.split(' ')[-1:]))
@@ -92,8 +92,9 @@ class Track(Cog):
         """
         name = url.split('/')[-1]
         # We probably want to add validation to the URL...
-        t = PerpetualTimer(60.0, gofundme, name, ctx, url)
+        t = PerpetualTimer(15, gofundme, name, ctx, url)
         t.start()
+        await ctx.send(f'Started tracking {name}.')
 
 
 def setup(bot):
