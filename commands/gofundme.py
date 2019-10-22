@@ -20,7 +20,7 @@ class perpetualTimer():
 	def cancel(self):
 		self.thread.cancel()
 	
-def gofundme(url,name):
+def gofundme(url):
 	if url.split(' ')[-1:].startswith('http'):
 		html = bs(urllib.request.urlopen(url.split(' ')[-1:]))
     donations = []
@@ -32,13 +32,14 @@ def gofundme(url,name):
 	for litag in ultag.find_all('li'):
 		donations.append(litag.text)
     clean = {x[0]: x[1] for x in [don.split('\xa0') for don in donations] if len(x) ==3}
+
 @command()
 async def track(self, ctx, *, command):
     """
     Give the bot a URL to track a gofundme! E.g. @ bastion track https://www.gofundme.com/f/help-ben-finish-college start
     Bastion will keep tabs on the latest contributors and announce progress milestones
-	List currently tracked gofundmes with @ bastion track list
-	Stop tracking a gofundme with @ bastion track # stop
+    List currently tracked gofundmes with @ bastion track list
+    Stop tracking a gofundme with @ bastion track # stop
     """
 	cmd = command.split(' ')
 	if cmd[-1] == 'stop':
@@ -50,6 +51,7 @@ async def track(self, ctx, *, command):
 		t.start()
 	else:
 		await ctx.send(f'Command not found. Type `@{self.bot.user} help track` for a list of commands.')
+	
 	def stop(name):
 		threads = threading.enumerate()[1:]
 		for i in range(len(threads)):
@@ -58,5 +60,3 @@ async def track(self, ctx, *, command):
 	def list():
 		threads = ['{}. {}'.format(i,x._name) for i,x in enumerate(threading.enumerate()[1:],1)]
 		await ctx.send('I\'m currently tracking the following GoFundMe pages!\n >>> '+ '\n'.join(threads))
-		
-    def hello(percentage, latest);
