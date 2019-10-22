@@ -1,28 +1,30 @@
-from threading import Timer
+from datetime import datetime
+import asyncio
 
 from discord.ext.commands import Cog, command, group
 import bs4 as bs
 
-class PerpetualTimer():
+class Timer():
 
-    def __init__(self, timeout, fn, name, *fn_args, **fn_kwargs):
+    def __init__(self, timeout, callback, name, *callback_args, **callback_kwargs):
         self.timeout = timeout
         self.name = name
-        self.fn = fn
-        self.fn_args = fn_args
-        self.fn_kwargs = fn_kwargs
-        self.thread = Timer(self.timeout, self.handle_function)
-
-    async def handle_function(self):
-        await self.fn(*self.fn_args, **self.fn_kwargs)
-        self.thread = Timer(self.timeout, self.handle_function)
-        self.thread.start()
+        self.callback = callback
+        self.callback_args = callback_args
+        self.callback_kwargs = callback_kwargs
+        self.task = None
 
     def start(self):
-        self.thread.start()
+        self.task = asyncio.ensure_future(self.handle_function())
+
+    async def handle_function(self):
+        await asyncio.sleep(self.timeout)
+        await self.callback(*self.callback_args, **self.callback_kwargs)
+        self.start()
 
     def cancel(self):
-        self.thread.cancel()
+        if self.task:
+            self.task.cancel()
 
 async def gofundme(ctx, url):
     await ctx.send("gofundme")
@@ -92,8 +94,8 @@ class Track(Cog):
         """
         name = url.split('/')[-1]
         # We probably want to add validation to the URL...
-        t = PerpetualTimer(15, gofundme, name, ctx, url)
-        t.start()
+        timer = Timer(15, gofundme, name, ctx, url)
+        timer.start()
         await ctx.send(f'Started tracking {name}.')
 
 
