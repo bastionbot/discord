@@ -1,20 +1,21 @@
-import threading
-import datetime
+from threading import Timer
 
 from discord.ext.commands import Cog, command, group
 import bs4 as bs
 
 class PerpetualTimer():
 
-    def __init__(self, t,hFunction,name):
-        self.t=t
-        self._name=name
-        self.hFunction = hFunction
-        self.thread = threading.Timer(self.t,self.handle_function)
+    def __init__(self, timeout, fn, name, *fn_args, **fn_kwargs):
+        self.timeout = timeout
+        self.name = name
+        self.fn = fn
+        self.fn_args = fn_args
+        self.fn_kwargs = fn_kwargs
+        self.thread = Timer(self.timeout, self.handle_function)
 
     def handle_function(self):
-        self.hFunction()
-        self.thread = threading.Timer(self.t,self.handle_function)
+        self.fn(*self.fn_args, **self.fn_kwargs)
+        self.thread = Timer(self.timeout, self.handle_function)
         self.thread.start()
 
     def start(self):
@@ -23,7 +24,9 @@ class PerpetualTimer():
     def cancel(self):
         self.thread.cancel()
 
-def gofundme(url):
+def gofundme(ctx, url):
+    ctx.send("gofundme")
+    print("gofundme")
     if url.split(' ')[-1:].startswith('http'):
         html = bs(urllib.request.urlopen(url.split(' ')[-1:]))
     donations = []
@@ -36,6 +39,7 @@ def gofundme(url):
             donations.append(litag.text)
     clean = {x[0]: x[1] for x in [don.split('\xa0') for don in donations] if len(x) ==3}
     print(clean)
+    ctx.send(clean)
 
 
 class Track(Cog):
@@ -62,11 +66,11 @@ class Track(Cog):
         thread = threads.get(name)
         if thread:
             thread.cancel()
-            await ctx.send(f"Tracking of {name} stopped successfully.")
+            await ctx.send(f'Tracking of {name} stopped successfully.')
             return
         await ctx.send(
-            f"Tracking by the name of {name} not found. Did you spell the name correctly?"
-            f"Type `@{self.bot.user} track list` for a list of active tracking"
+            f'Tracking by the name of {name} not found. Did you spell the name correctly?'
+            f'Type `@{self.bot.user} track list` for a list of active trackings'
         )
 
     @track.command()
@@ -74,8 +78,10 @@ class Track(Cog):
         """
         List currently tracked gofundmes.
         """
-        threads = [f'{i}) {thread.name}' for i, thread in enumerate(self._get_tracking_threads(), 1)]
-        await ctx.send('I\'m currently tracking the following GoFundMe pages!\n >>> '+ '\n'.join(threads))
+        threads = '\n'.join([
+            f'{i}) {thread.name}' for i, thread in enumerate(self._get_tracking_threads(), 1)
+        ])
+        await ctx.send(f'I\'m currently tracking the following GoFundMe pages!\n >>> {threads}')
 
     @track.command()
     async def start(self, ctx, url):
@@ -86,7 +92,7 @@ class Track(Cog):
         """
         name = url.split('/')[-1]
         # We probably want to add validation to the URL...
-        t = PerpetualTimer(60.0, gofundme, name, url)
+        t = PerpetualTimer(60.0, gofundme, name, ctx, url)
         t.start()
 
 
