@@ -103,6 +103,5 @@ class Roles(Cog):
         return roles
 
 
-
 def setup(bot):
     bot.add_cog(Roles(bot))

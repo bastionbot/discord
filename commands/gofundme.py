@@ -1,7 +1,7 @@
 import threading
 import datetime
 
-from discord.ext.commands import Cog, command
+from discord.ext.commands import Cog, command, group
 import bs4 as bs
 
 class PerpetualTimer():
@@ -32,9 +32,10 @@ def gofundme(url):
     percent = list(progress.split(' ')[i].strip('$') for i in [0, 3])
     percentage = float('%.3f' %(int(percent[0].replace(',','')) / int(percent[1].replace(',','')) * 100))
     for ultag in html.find_all('ul', {'class': 'o-campaign-sidebar-donations'}):
-    for litag in ultag.find_all('li'):
-        donations.append(litag.text)
+        for litag in ultag.find_all('li'):
+            donations.append(litag.text)
     clean = {x[0]: x[1] for x in [don.split('\xa0') for don in donations] if len(x) ==3}
+    print(clean)
 
 
 class Track(Cog):
@@ -52,7 +53,7 @@ class Track(Cog):
         await ctx.send(f'Command not found. Type `@{self.bot.user} help track` for a list of commands.')
 
     @track.command()
-    async def stop(self, ctx, *, name):
+    async def stop(self, ctx, name):
         """
         Stops an active tracking by name. See the list command for a list of currently active tracking.
         """
@@ -84,9 +85,6 @@ class Track(Cog):
         # We probably want to add validation to the URL...
         t = PerpetualTimer(60.0, gofundme, name, url)
         t.start()
-        else:
-            await ctx.send(f'Command not found. Type `@{self.bot.user} help track` for a list of commands.')
-
 
 
 def setup(bot):
