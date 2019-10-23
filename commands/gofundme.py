@@ -2,7 +2,8 @@ from datetime import datetime
 import asyncio
 
 from discord.ext.commands import Cog, command, group
-import bs4 as bs
+
+from parsers.gofundme import gofundme
 
 class Timer():
 
@@ -25,23 +26,6 @@ class Timer():
     def cancel(self):
         if self.task:
             self.task.cancel()
-
-async def gofundme(ctx, url):
-    await ctx.send("gofundme")
-    print("gofundme")
-    if url.split(' ')[-1:].startswith('http'):
-        html = bs(urllib.request.urlopen(url.split(' ')[-1:]))
-    donations = []
-    name = html.find('h1').text
-    progress = ''.join([x.text for x in html.find_all('h2',{'class':'m-progress-meter-heading'})])
-    percent = list(progress.split(' ')[i].strip('$') for i in [0, 3])
-    percentage = float('%.3f' %(int(percent[0].replace(',','')) / int(percent[1].replace(',','')) * 100))
-    for ultag in html.find_all('ul', {'class': 'o-campaign-sidebar-donations'}):
-        for litag in ultag.find_all('li'):
-            donations.append(litag.text)
-    clean = {x[0]: x[1] for x in [don.split('\xa0') for don in donations] if len(x) ==3}
-    print(clean)
-    ctx.send(clean)
 
 
 class Track(Cog):
@@ -98,7 +82,7 @@ class Track(Cog):
         """
         name = url.split('/')[-1]
         # We probably want to add validation to the URL...
-        timer = Timer(15, gofundme, name, ctx, url)
+        timer = Timer(15, gofundme, name, url, ctx)
         timer.start()
         self.timers[name] = timer
         await ctx.send(f'Started tracking {name}.')
