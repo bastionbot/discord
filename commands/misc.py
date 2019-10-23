@@ -6,8 +6,6 @@ class Misc(Cog):
     """
     Miscellaneous fun commands.
     """
-    def __init__(self, bot):
-        self.bot = bot
 
     @command()
     async def roll(self, ctx, dice=None):
@@ -56,4 +54,4 @@ class Misc(Cog):
 
 
 def setup(bot):
-    bot.add_cog(Misc(bot))
+    bot.add_cog(Misc())
