@@ -46,8 +46,9 @@ async def gofundme(ctx, url):
 
 class Track(Cog):
 
-    def _get_tracking_threads(self):
-        return threading.enumerate()[:1]
+    def __init__(self, bot):
+        self.bot = bot
+        self.timers = {}
 
     @group()
     async def track(self, ctx):
@@ -64,15 +65,15 @@ class Track(Cog):
         Stops an active tracking by name.
         See the list command for a list of currently active tracking.
         """
-        threads = {thread.name: thread for thread in self._get_tracking_threads()}
-        thread = threads.get(name)
+        thread = self.timers.get(name)
         if thread:
             thread.cancel()
+            del self.timers[name]
             await ctx.send(f'Tracking of {name} stopped successfully.')
             return
         await ctx.send(
-            f'Tracking by the name of {name} not found. Did you spell the name correctly?'
-            f'Type `@{self.bot.user} track list` for a list of active trackings'
+            f'Tracking by the name of {name} not found. Did you spell the name correctly? '
+            f'Type `@{self.bot.user} track list` for a list of active trackings.'
         )
 
     @track.command()
@@ -80,10 +81,13 @@ class Track(Cog):
         """
         List currently tracked gofundmes.
         """
+        if not list(self.threads.keys()):
+            await ctx.send('I\'m not currently tracking any GoFundMe pages.')
+            return
         threads = '\n'.join([
-            f'{i}) {thread.name}' for i, thread in enumerate(self._get_tracking_threads(), 1)
+            f'{i}) {name}' for i, name in enumerate(self.timers.keys(), 1)
         ])
-        await ctx.send(f'I\'m currently tracking the following GoFundMe pages!\n >>> {threads}')
+        await ctx.send(f'I\'m currently tracking the following GoFundMe pages! >>> {threads}')
 
     @track.command()
     async def start(self, ctx, url):
@@ -96,8 +100,9 @@ class Track(Cog):
         # We probably want to add validation to the URL...
         timer = Timer(15, gofundme, name, ctx, url)
         timer.start()
+        self.timers[name] = timer
         await ctx.send(f'Started tracking {name}.')
 
 
 def setup(bot):
-    bot.add_cog(Track())
+    bot.add_cog(Track(bot))
