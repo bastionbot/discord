@@ -22,7 +22,7 @@ async def gofundme(url, ctx=None):
         for litag in ultag.find_all('li'):
             donations.append(litag.text)
     for x in [don.split('\xa0') for don in donations]:
-	    if len(x) == 3:
+        if len(x) == 3:
             clean.append({"name": x[0], "donation": x[1] + ' ' + x[2]})
     embed = discord.Embed(title=author, color=1359922)
     embed.url = url
