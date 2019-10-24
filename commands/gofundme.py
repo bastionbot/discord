@@ -89,7 +89,7 @@ class Track(Cog):
             timer.start()
             self.timers[name] = timer
             await ctx.send(f'Started tracking {name}')
-            gofundme(url, ctx)
+            await gofundme(url, ctx)
 
 
 def setup(bot):
