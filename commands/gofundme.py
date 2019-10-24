@@ -80,9 +80,9 @@ class Track(Cog):
         E.g. @Bastion track start https://www.gofundme.com/f/help-ben-finish-college
         Bastion will keep tabs on the latest contributors and announce progress milestones.
         """
-        name = url.split('/')[-1]
+        name = url.split(' ')[-1]
         # We probably want to add validation to the URL...
-        timer = Timer(15, gofundme, name, url, ctx)
+        timer = Timer(360, gofundme, name, url, ctx)
         timer.start()
         self.timers[name] = timer
         await ctx.send(f'Started tracking {name}.')
