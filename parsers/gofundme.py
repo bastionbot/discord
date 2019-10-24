@@ -23,13 +23,13 @@ async def gofundme(url, ctx=None):
             donations.append(litag.text)
     clean = {x[0]: x[1] + ' ' + x[2] for x in [don.split('\xa0') for don in donations] if len(x) ==3}
     embed = discord.Embed(title=author, color=1359922)
-	embed.url = url
-	embed.description = "${} / ${}\n**This fundraiser is {}% there!**\n\nRecent contributors".format(percent[0],percent[1],percentage)
-	embed.thumbnail.url = "https://www.gofundme.com/static/media/DefaultAvatar.65712475de0674c9f775ae3b64e7c69f.svg"
-	embed.set_author(name=name, url=url)
-	for x in list(clean)[0:5]:
-		embed.add_field(name=x, value=clean[x], inline=True)
-	await ctx.send(embed=embed)
+    embed.url = url
+    embed.description = "${} / ${}\n**This fundraiser is {}% there!**\n\nRecent contributors".format(percent[0],percent[1],percentage)
+    embed.thumbnail.url = "https://www.gofundme.com/static/media/DefaultAvatar.65712475de0674c9f775ae3b64e7c69f.svg"
+    embed.set_author(name=name, url=url)
+    for x in list(clean)[0:5]:
+        embed.add_field(name=x, value=clean[x], inline=True)
+    await ctx.send(embed=embed)
 
 if __name__ == '__main__':
     asyncio.run(gofundme("https://www.gofundme.com/f/help-ben-finish-college"))
