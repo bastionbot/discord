@@ -27,7 +27,7 @@ async def gofundme(url, ctx=None):
     embed = discord.Embed(title=author, color=1359922)
     embed.url = url
     embed.description = "${} / ${}\n**This fundraiser is {}% there!**\n\nRecent contributors".format(percent[0],percent[1],percentage)
-    embed.set_image(url="https://cdn.discordapp.com/attachments/589204340019953666/636768886720561182/1FkYANkCKFd4UEsR7cIWKrw.png")
+    embed.set_image(url="https://miro.medium.com/max/1200/1*FkYANkCKFd4UEsR7cIWKrw.png")
     embed.set_author(name=name, url=url)
     for x in clean[0:6]:
         embed.add_field(name=x["name"], value=x["donation"], inline=True)
