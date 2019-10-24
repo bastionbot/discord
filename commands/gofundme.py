@@ -65,13 +65,13 @@ class Track(Cog):
         """
         List currently tracked gofundmes.
         """
-        if not list(self.threads.keys()):
+        if not list(self.timers.keys()):
             await ctx.send('I\'m not currently tracking any GoFundMe pages.')
             return
         threads = '\n'.join([
             f'{i}) {name}' for i, name in enumerate(self.timers.keys(), 1)
         ])
-        await ctx.send(f'I\'m currently tracking the following GoFundMe pages! >>> {threads}')
+        await ctx.send(f'I\'m currently tracking the following GoFundMe pages!\n>>> {threads}')
 
     @track.command()
     async def start(self, ctx, url):
@@ -80,9 +80,10 @@ class Track(Cog):
         E.g. @Bastion track start https://www.gofundme.com/f/help-ben-finish-college
         Bastion will keep tabs on the latest contributors and announce progress milestones.
         """
-        name = url.split(' ')[-1]
+        name = url.split('/')[-1]
         # We probably want to add validation to the URL...
         timer = Timer(360, gofundme, name, url, ctx)
+        timer._name = name
         timer.start()
         self.timers[name] = timer
         await ctx.send(f'Started tracking {name}.')
