@@ -29,7 +29,7 @@ async def gofundme(url, ctx=None):
     embed.set_author(name=name, url=url)
     for x in list(clean)[0:5]:
         embed.add_field(name=x, value=clean[x], inline=True)
-    await ctx.send(embed=embed, ctx)
+    await ctx.send(ctx, embed=embed)
 
 if __name__ == '__main__':
     asyncio.run(gofundme("https://www.gofundme.com/f/help-ben-finish-college"))
