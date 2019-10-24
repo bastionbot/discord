@@ -24,11 +24,11 @@ async def gofundme(url, ctx=None):
     for x in [don.split('\xa0') for don in donations]:
         if len(x) == 3:
             clean.append({"name": x[0], "donation": x[1] + ' ' + x[2].replace(' ','') + ' ago'})
-    embed = discord.Embed(title=name, color=1359922)
+    embed = discord.Embed(title="GoFundMe link", color=1359922)
     embed.url = url
     embed.description = "${} / ${}\n**This fundraiser is {}% there!**\n\nRecent contributors".format(percent[0],percent[1],percentage)
     embed.set_thumbnail(url="https://miro.medium.com/max/1200/1*FkYANkCKFd4UEsR7cIWKrw.png")
-    embed.set_author(name="GoFundMe link", url=url)
+    embed.set_author(name=name, url=url)
     for x in clean[0:6]:
         embed.add_field(name=x["name"], value=x["donation"], inline=True)
     embed.add_field(inline=False, name="Checked at", value=f"{datetime.now().strftime('%H:%M:%S %a %d %b %Y')}")
