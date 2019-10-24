@@ -17,7 +17,7 @@ async def gofundme(url, ctx=None):
     progress = ''.join([x.text for x in html.find_all('h2',{'class':'m-progress-meter-heading'})])
     percent = list(progress.split(' ')[i].strip('$') for i in [0, 3])
     percentage = float('%.1f' %(int(percent[0].replace(',','')) / int(percent[1].replace(',','')) * 100))
-        author = html.find('div', {'class': 'm-campaign-byline-description'}).text
+    author = html.find('div', {'class': 'm-campaign-byline-description'}).text
     for ultag in html.find_all('ul', {'class': 'o-campaign-sidebar-donations'}):
         for litag in ultag.find_all('li'):
             donations.append(litag.text)
