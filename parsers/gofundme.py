@@ -23,7 +23,7 @@ async def gofundme(url, ctx=None):
             donations.append(litag.text)
     for x in [don.split('\xa0') for don in donations]:
         if len(x) == 3:
-            clean.append({"name": x[0], "donation": x[1] + ' ' + x[2]})
+            clean.append({"name": x[0], "donation": x[1] + ' ' + x[2].replace(' ','') + ' ago'})
     embed = discord.Embed(title=author, color=1359922)
     embed.url = url
     embed.description = "${} / ${}\n**This fundraiser is {}% there!**\n\nRecent contributors".format(percent[0],percent[1],percentage)
