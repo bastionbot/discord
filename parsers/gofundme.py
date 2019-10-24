@@ -10,8 +10,7 @@ async def ctx_print(_str, ctx=None):
 
 async def gofundme(url, ctx=None):
     #await ctx_print(f"gofundme: {datetime.now().isoformat()}", ctx)
-    if url.split(' ')[-1].startswith('https://www.gofundme.com/f/'):
-        html = bs(urllib.request.urlopen(url), features="html.parser")
+    html = bs(urllib.request.urlopen(url), features="html.parser")
     donations = []
     name = html.find('h1').text
     progress = ''.join([x.text for x in html.find_all('h2',{'class':'m-progress-meter-heading'})])
@@ -29,6 +28,7 @@ async def gofundme(url, ctx=None):
     embed.set_author(name=name, url=url)
     for x in list(clean)[0:5]:
         embed.add_field(name=x, value=clean[x], inline=True)
+    embed.add_field(name="Checked at", value=f"{datetime.now().strftime('%H:%M:%S %a %d %b %Y')}")
     await ctx.send(embed=embed)
 
 if __name__ == '__main__':
