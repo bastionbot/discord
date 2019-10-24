@@ -85,7 +85,7 @@ class Track(Cog):
         else:
             name = url.split('/')[-1]
             # We probably want to add validation to the URL...
-            timer = Timer(3600, gofundme, name, url, ctx)
+            timer = Timer(43200, gofundme, name, url, ctx)
             timer.start()
             self.timers[name] = timer
             await ctx.send(f'Started tracking {name}')
