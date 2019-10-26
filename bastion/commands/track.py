@@ -3,7 +3,7 @@ import asyncio
 
 from discord.ext.commands import Cog, command, group
 
-from parsers.gofundme import gofundme
+from bastion.parsers.gofundme import gofundme
 
 class Timer():
 
