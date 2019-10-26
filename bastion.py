@@ -25,6 +25,8 @@ def main():
     bastion.load_extension('commands.misc')
     bastion.load_extension('commands.gofundme')
 
+    import ipdb;ipdb.set_trace();
+
     bastion.run(config['client']['token'])
 
 if __name__ == '__main__':
