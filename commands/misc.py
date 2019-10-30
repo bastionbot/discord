@@ -32,7 +32,10 @@ class Misc(Cog):
                    'Yes.', 
                    'Yes – definitely.', 
                    'You may rely on it.']
-        await ctx.send(f'**{random.choice(answers)}**')
+        if question is None:
+            await ctx.send(f'An answer without a question is meaningless.')
+        else:
+            await ctx.send(f'**{random.choice(answers)}**')
 
     @command()
     async def roll(self, ctx, dice=None):
