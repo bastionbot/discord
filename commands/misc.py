@@ -7,8 +7,8 @@ class Misc(Cog):
     Miscellaneous fun commands.
     """
     
-    @command()
-    async def 8ball(self, ctx, question):
+    @command(aliases=['8ball'])
+    async def eightball(self, ctx, question):
         """
         Randomly returns one of the 20 original answers in a Magic 8-Ball
         """
