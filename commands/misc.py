@@ -8,7 +8,7 @@ class Misc(Cog):
     """
     
     @command(aliases=['8ball'])
-    async def eightball(self, ctx, question):
+    async def eightball(self, ctx, question=None):
         """
         Randomly returns one of the 20 original answers in a Magic 8-Ball
         """
@@ -32,7 +32,7 @@ class Misc(Cog):
                    'Yes.', 
                    'Yes – definitely.', 
                    'You may rely on it.']
-        if not question:
+        if question is None:
             await ctx.send(f'An answer without a question is meaningless.')
         else:
             await ctx.send(f'**{random.choice(answers)}**')
