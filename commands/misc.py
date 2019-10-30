@@ -32,7 +32,7 @@ class Misc(Cog):
                    'Yes.', 
                    'Yes – definitely.', 
                    'You may rely on it.']
-        if question is None:
+        if not question:
             await ctx.send(f'An answer without a question is meaningless.')
         else:
             await ctx.send(f'**{random.choice(answers)}**')
