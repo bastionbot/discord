@@ -2,7 +2,7 @@ import random
 from discord import utils, Embed
 from discord.ext.commands import Cog, command, group
 
-from bastion.commands.misc import eight_ball
+from bastion.commands.misc import eight_ball, roll_dice
 
 class Misc(Cog):
     """
@@ -33,19 +33,12 @@ class Misc(Cog):
         `roll d20` will roll a 20-sided die.
         Pass nothing to roll a 6-sided die.
         """
-        n_dice = 1
-        faces = 6
-        if dice:
-            n_dice, faces = dice.split('d')
-            if not faces:
-                await ctx.send('Could not extract number of faces.')
-                return
-            if not n_dice:
-                n_dice = 1
-            faces = int(faces)
-            n_dice = int(n_dice)
-        results = list(map(random.randint, [1] * n_dice, [faces] * n_dice))
-        await ctx.send(f'{results}: **{sum(results)}**')
+        try:
+            result = roll_dice.roll(dice)
+        except ValueError as e:
+            await ctx.send(str(e))
+        else:
+            await ctx.send(f'{results}: **{sum(results)}**')
 
     @command()
     async def decide(self, ctx, *, options):
