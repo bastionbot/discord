@@ -12,7 +12,7 @@ class Misc(Cog):
     @command(aliases=['8ball'])
     async def eightball(self, ctx, question=None):
         """
-        Randomly returns one of the 20 original answers in a Magic 8-Ball
+        Randomly returns Magic 8-Ball-style answers.
         """
         try:
             answer = eight_ball.get_answer(question)
