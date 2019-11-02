@@ -19,7 +19,7 @@ class Misc(Cog):
         except ValueError as error:
             await ctx.send(str(error))
         else:
-            await ctx.send(f'**{answer}**')
+            await ctx.send(answer)
 
     @command()
     async def roll(self, ctx, dice=None):
@@ -44,20 +44,15 @@ class Misc(Cog):
     async def decide(self, ctx, *, options):
         """
         Make the bot decide stuff for you!
-        Separate each option with "or", or end your message with y/n for a "yes", "no" pick.
-        For example:
+        Separate each option with "or", for example:
         `decide pizza or burger`
-        `decide do I go y/n`
         """
-        # We probably need to put in more fun messages but meh for now.
-        if options.endswith('y/n'):
-            await ctx.send(f'**{random.choice(["Yes!", "No!"])}**')
-            return
-        choices = options.split(" or ")
-        if len(choices) == 1:
-            await ctx.send('I need to have at least two options!')
-            return
-        await ctx.send(f'**{random.choice(choices)}**')
+        try:
+            result = decide.decide(options)
+        except ValueError as e:
+            await ctx.send(str(e))
+        else:
+            await ctx.send(result)
 
 
 def setup(bot):
