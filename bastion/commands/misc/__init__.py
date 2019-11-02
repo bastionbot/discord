@@ -38,7 +38,7 @@ class Misc(Cog):
         except ValueError as e:
             await ctx.send(str(e))
         else:
-            await ctx.send(f'{results}: **{sum(results)}**')
+            await ctx.send(f'{result}: **{sum(result)}**')
 
     @command()
     async def decide(self, ctx, *, options):
