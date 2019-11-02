@@ -17,8 +17,8 @@ def test_init_bastion():
     assert {Track, Misc, Roles} == {cog.__class__ for cog in bastion.cogs.values()}
 
 
-def test_discord_run_is_called_with_token():
-    run_mock = Mock()
+@patch('bastion.Bot.run')
+def test_discord_run_is_called_with_token(run_mock):
     token = 'TOKEN'
     config = {
         'client': {
@@ -27,7 +27,6 @@ def test_discord_run_is_called_with_token():
     }
 
     bastion = init_bastion(config)
-    bastion.run = run_mock
-    bastion.run_bastion()
+    bastion.run()
 
     run_mock.assert_called_once_with(bastion.token)

@@ -14,9 +14,8 @@ class BastionBot(Bot):
     async def on_guild_available(self, guild):
         self.get_cog('Roles').register_bot_roles(guild)
 
-    def run_bastion(self):
-        # This is built this way so we can mock out Bot.run
-        self.run(self.token)
+    def run(self):
+        super().run(self.token)
 
 
 def init_bastion(config):
