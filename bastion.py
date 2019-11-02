@@ -11,7 +11,7 @@ def main():
 
     bastion = init_bastion(config)
 
-    bastion.run_bastion()
+    bastion.run()
 
 if __name__ == '__main__':
     main()
