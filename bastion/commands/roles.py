@@ -1,5 +1,8 @@
+from bastion.utils.role_manager import RoleManager
+
 from discord import utils, Embed, role
 from discord.ext.commands import Cog, command, group
+
 
 class Roles(Cog):
     """
@@ -7,13 +10,10 @@ class Roles(Cog):
     """
     def __init__(self, bot):
         self.bot = bot
-        self.bot_role_map = {}
+        self.role_manager = RoleManager()
 
     def register_bot_roles(self, guild):
-        bot_guild_user = utils.find(lambda member: member.id == self.bot.user.id, guild.members)
-        # I'm pretty sure @everyone is always the first role
-        bot_roles = bot_guild_user.roles[1:]
-        self.bot_role_map[guild.id] = [role.id for role in bot_roles]
+        self.role_manager.register_bot_roles(self.bot, guild)
 
     @group()
     async def role(self, ctx):
@@ -30,12 +30,11 @@ class Roles(Cog):
         Lists joinable roles.
         Roles higher up in the list have priority when overriding colors.
         """
-        roles = self._get_available_roles(ctx.guild)
-        roles.reverse()
-        if roles == []:
-            noroles = role.Role
-            noroles.name = 'Could not find any roles!'
-            roles.append(noroles)
+        roles = reversed(self.role_manager.get_available_roles(ctx.guild))
+        if not roles:
+            await ctx.send('Could not find any roles! Check if my lowermost role is correctly positioned.')
+            return
+
         # We will probably have to paginate this later
         embed = Embed.from_dict({
             'author': {
@@ -52,55 +51,40 @@ class Roles(Cog):
 
         await ctx.send(embed=embed)
 
-    @role.command(aliases=['add'])
-    async def join(self, ctx, *, role_name):
-        """
-        Joins a role.
-        """
+
+    async def _manage_user_role(self, ctx, role_name, add_role=True):
+        present_verb = 'give' if add_role else 'take'
+        past_verb = 'added' if add_role else 'removed'
+        action = ctx.author.add_roles if add_role else ctx.author.remove_roles
+
         role = utils.get(ctx.guild.roles, name=role_name)
         if not role:
             await ctx.send('Role not found.')
             return
 
-        available_roles = self._get_available_roles(ctx.guild)
+        available_roles = self.role_manager.get_available_roles(ctx.guild)
         if role not in available_roles:
-            await ctx.send('I cannot give out roles higher than my own.')
+            await ctx.send(f'I cannot {present_verb} out roles higher than my own.')
             return
 
-        await ctx.author.add_roles(role)
-        await ctx.send('Succesfully added role.')
+        await action(role)
+        await ctx.send(f'Succesfully {past_verb} role.')
+
+
+    @role.command(aliases=['add'])
+    async def join(self, ctx, *, role_name):
+        """
+        Joins a role.
+        """
+        await self._manage_user_role(ctx, role_name, add_role=True)
+
 
     @role.command(aliases=['remove'])
     async def leave(self, ctx, *, role_name):
         """
         Leaves a role
         """
-        role = utils.get(ctx.guild.roles, name=role_name)
-        if not role:
-            await ctx.send('Role not found.')
-            return
-
-        available_roles = self._get_available_roles(ctx.guild)
-        if role not in available_roles:
-            await ctx.send('I cannot take out roles higher than my own.')
-            return
-
-        await ctx.author.remove_roles(role)
-        await ctx.send('Succesfully removed role.')
-
-    def _get_available_roles(self, guild):
-        """
-        Gets the roles that the bot can add to the other users
-        """
-        roles = []
-        bot_roles_ids = self.bot_role_map[guild.id]
-        # We skip the first role, as it is @everyone
-        for role in guild.roles[1:]:
-            # We break out on the first role that the bot has, just to be safe
-            if role.id in bot_roles_ids:
-                break
-            roles.append(role)
-        return roles
+        await self._manage_user_role(ctx, role_name, add_role=False)
 
 
 def setup(bot):
