@@ -37,7 +37,7 @@ class Misc(Cog):
         else:
             await ctx.send(f'**{random.choice(answers)}**')
 
-    @command(alias='is')
+    @command(aliases=['is'])
     async def is_art(self, ctx, art=None):
         """
         Answers the immortal question, ***\"Is this art?\"***
