@@ -53,6 +53,8 @@ class Misc(Cog):
                    'could be nothing other than' ]
         if art is not None:
             await ctx.send(f'**It is {random.choice(answers)} art**')
+        else:
+            await ctx.send(f'**Art is everywhere***')
   
     @command()
     async def roll(self, ctx, dice=None):
