@@ -42,17 +42,17 @@ class Misc(Cog):
         """
         Answers the immortal question, ***\"Is this art?\"***
         """
-        answers = [ 'most certainly', 
-                   'definitely', 
-                   'absolutely', 
-                   'possibly', 
-                   'not at all', 
+        answers = [ 'most certainly is', 
+                   'definitely is', 
+                   'absolutely is not', 
+                   'possibly could be', 
+                   'is not at all', 
                    'is', 
                    'is not', 
                    'could not be', 
                    'could be nothing other than' ]
         if art is not None:
-            await ctx.send(f'**It is {random.choice(answers)} art**')
+            await ctx.send(f'**It {random.choice(answers)} art**')
         else:
             await ctx.send(f'**Art is everywhere***')
   
