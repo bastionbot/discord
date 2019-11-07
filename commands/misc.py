@@ -40,7 +40,7 @@ class Misc(Cog):
     @command(aliases=['is'])
     async def is_art(self, ctx, art=None):
         """
-        Answers the immortal question, ***\"Is this art?\"***
+        Answers the immortal question, \"Is this art?\"
         """
         answers = [ 'most certainly is', 
                    'definitely is', 
@@ -54,7 +54,7 @@ class Misc(Cog):
         if art is not None:
             await ctx.send(f'**It {random.choice(answers)} art**')
         else:
-            await ctx.send(f'**Art is everywhere***')
+            await ctx.send(f'**Art is everywhere**')
   
     @command()
     async def roll(self, ctx, dice=None):
