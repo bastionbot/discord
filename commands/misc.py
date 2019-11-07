@@ -33,10 +33,27 @@ class Misc(Cog):
                    'Yes – definitely.', 
                    'You may rely on it.']
         if question is None:
-            await ctx.send(f'An answer without a question is meaningless.')
+            await ctx.send(f'**An answer without a question is meaningless.**')
         else:
             await ctx.send(f'**{random.choice(answers)}**')
 
+    @command(alias='is')
+    async def is_art(self, ctx, art=None):
+        """
+        Answers the immortal question, ***\"Is this art?\"***
+        """
+        answers = [ 'most certainly', 
+                   'definitely', 
+                   'absolutely', 
+                   'possibly', 
+                   'not at all', 
+                   'is', 
+                   'is not', 
+                   'could not be', 
+                   'could be nothing other than' ]
+        if art is not None:
+            await ctx.send(f'**It is {random.choice(answers)} art**')
+  
     @command()
     async def roll(self, ctx, dice=None):
         """
