@@ -45,12 +45,12 @@ class Track(Cog):
         List currently tracked gofundmes.
         """
         if not list(self.timers.keys()):
-            await ctx.send('I\'m not currently tracking any GoFundMe pages.')
+            await ctx.send("'I'm not currently tracking any GoFundMe pages.'")
             return
         threads = '\n'.join([
             f'{i}) {name}' for i, name in enumerate(self.timers.keys(), 1)
         ])
-        await ctx.send(f'I\'m currently tracking the following GoFundMe pages!\n>>> {threads}')
+        await ctx.send(f"I'm currently tracking the following GoFundMe pages!\n>>> {threads}")
 
     @track.command()
     async def start(self, ctx, url):
@@ -61,14 +61,13 @@ class Track(Cog):
         """
         if not url.split(' ')[-1].startswith('https://www.gofundme.com/f/'):
             await ctx.send(f'<{url}> is not a valid GoFundMe page')
-        else:
-            name = url.split('/')[-1]
-            # We probably want to add validation to the URL...
-            timer = Timer(43200, gofundme, name, url, ctx)
-            timer.start()
-            self.timers[name] = timer
-            await ctx.send(f'Started tracking {name}')
-            await gofundme(url, ctx)
+            return
+        name = url.split('/')[-1]
+        timer = Timer(43200, gofundme, name, url, ctx)
+        timer.start()
+        self.timers[name] = timer
+        await ctx.send(f'Started tracking {name}')
+        await gofundme(url, ctx)
 
 
 def setup(bot):

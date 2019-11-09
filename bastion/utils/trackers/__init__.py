@@ -1,3 +1,5 @@
+import asyncio
+
 class Timer():
 
     def __init__(self, timeout, callback, name, *callback_args, **callback_kwargs):
@@ -19,3 +21,12 @@ class Timer():
     def cancel(self):
         if self.task:
             self.task.cancel()
+            return True
+        return False
+
+
+class TrackManager():
+    DEFAULT_TIMEOUT = 60 * 60 * 12 # 12 hours
+
+    def __init__(self):
+        self.timers = {}
