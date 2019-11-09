@@ -1,5 +1,13 @@
 import asyncio
 
+async def _handle_function(callback, *callback_args, **callback_kwargs):
+    """
+    This is the function that actually calls the Timer callback.
+    Had to do this so I could actually test that the params were passed correctly
+    """
+    await callback(*callback_args, **callback_kwargs)
+
+
 class Timer():
 
     def __init__(self, timeout, callback, name, *callback_args, **callback_kwargs):
@@ -15,7 +23,7 @@ class Timer():
 
     async def handle_function(self):
         await asyncio.sleep(self.timeout)
-        await self.callback(*self.callback_args, **self.callback_kwargs)
+        await _handle_function(self.callback, *self.callback_args, **self.callback_kwargs)
         self.start()
 
     def cancel(self):

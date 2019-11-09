@@ -4,8 +4,9 @@ from asyncio import Future
 from unittest.mock import patch, Mock
 
 import pytest
+from asynctest import CoroutineMock
 
-from bastion.utils.trackers import Timer
+from bastion.utils.trackers import Timer, _handle_function
 
 
 async def mock_fn(*args, **kwargs):
@@ -35,6 +36,9 @@ def test_create_timer():
 
 @patch('bastion.utils.trackers.asyncio.create_task')
 def test_start_calls_asyncio(create_task_mock):
+    # This test raises a " RuntimeWarning: coroutine 'Timer.handle_function' was never awaited" warning,
+    # but in this case it's safe to ignore because we are just asserting that `create_task` was
+    # called with that coroutine.
     create_task_mock.return_value = 'CREATE_TASK_RETVAL'
     timeout = 60
     name = 'timer_name'
@@ -46,20 +50,12 @@ def test_start_calls_asyncio(create_task_mock):
     assert timer.task == 'CREATE_TASK_RETVAL'
 
 
-# @pytest.mark.asyncio
-# async def test_handle_function_called_with_args():
-#     mock_fn = Mock(return_value=Future())
-#     mock_fn.return_value.set_result(None)
-#     timeout = 1
-#     name = 'timer_name'
-#     args = (1, 2, 3)
-#     kwargs = {"a": 1}
-#     timer = Timer(timeout, mock_fn, name, *args, **kwargs)
+@pytest.mark.asyncio
+async def test_handle_function_called_with_args():
+    mock_callback = CoroutineMock()
+    args = (1, 2, 3)
+    kwargs = {"a": 1}
 
-#     await timer.handle_function()
-#     await asyncio.sleep(timeout)
-#     assert timer.task is not None # task is reset in the handle_function
-#     timer.cancel()
-
-#     assert mock_fn.assert_called_once_with(*args, **kwargs)
+    await _handle_function(mock_callback, *args, **kwargs)
+    mock_callback.assert_called_once_with(*args, **kwargs)
 
