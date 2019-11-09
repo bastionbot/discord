@@ -53,8 +53,10 @@ class Roles(Cog):
 
 
     async def _manage_user_role(self, ctx, role_name, add_role=True):
-        present_verb = 'give' if add_role else 'take'
-        past_verb = 'added' if add_role else 'removed'
+        present_verb = 'give' if add_role else 'remove'
+        past_verb = 'given' if add_role else 'removed'
+        preposition = 'to' if add_role else 'from'
+
         action = ctx.author.add_roles if add_role else ctx.author.remove_roles
 
         role = utils.get(ctx.guild.roles, name=role_name)
@@ -64,11 +66,11 @@ class Roles(Cog):
 
         available_roles = self.role_manager.get_available_roles(ctx.guild)
         if role not in available_roles:
-            await ctx.send(f'I cannot {present_verb} out roles higher than my own.')
+            await ctx.send(f'I cannot {present_verb} roles higher than my own.')
             return
 
         await action(role)
-        await ctx.send(f'Succesfully {past_verb} role.')
+        await ctx.send(f'Succesfully {past_verb} {role.name} {preposition} {ctx.author.nick if ctx.author.nick else ctx.author.name}.')
 
 
     @role.command(aliases=['add'])
