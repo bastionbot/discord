@@ -11,7 +11,7 @@ class Timer():
         self.task = None
 
     def start(self):
-        self.task = asyncio.ensure_future(self.handle_function())
+        self.task = asyncio.create_task(self.handle_function())
 
     async def handle_function(self):
         await asyncio.sleep(self.timeout)
