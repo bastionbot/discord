@@ -3,29 +3,8 @@ import asyncio
 
 from discord.ext.commands import Cog, command, group
 
-from bastion.parsers.gofundme import gofundme
-
-class Timer():
-
-    def __init__(self, timeout, callback, name, *callback_args, **callback_kwargs):
-        self.timeout = timeout
-        self.name = name
-        self.callback = callback
-        self.callback_args = callback_args
-        self.callback_kwargs = callback_kwargs
-        self.task = None
-
-    def start(self):
-        self.task = asyncio.ensure_future(self.handle_function())
-
-    async def handle_function(self):
-        await asyncio.sleep(self.timeout)
-        await self.callback(*self.callback_args, **self.callback_kwargs)
-        self.start()
-
-    def cancel(self):
-        if self.task:
-            self.task.cancel()
+from bastion.utils.trackers.parsers.gofundme import gofundme
+from bastion.utils.trackers import Timer
 
 
 class Track(Cog):
