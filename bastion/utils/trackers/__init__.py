@@ -18,24 +18,17 @@ class Timer():
         self.callback_kwargs = callback_kwargs
         self.task = None
 
-    def start(self):
+    def schedule(self):
         # I couldn't test this function :(
-        self.task = asyncio.create_task(self.handle_function())
+        self.task = asyncio.create_task(self.run())
 
-    async def handle_function(self):
-        await asyncio.sleep(self.timeout)
+    async def run(self):
         await _handle_function(self.callback, *self.callback_args, **self.callback_kwargs)
-        self.start()
+        await asyncio.sleep(self.timeout)
+        self.schedule()
 
     def cancel(self):
         if self.task:
             self.task.cancel()
             return True
         return False
-
-
-class TrackManager():
-    DEFAULT_TIMEOUT = 60 * 60 * 12 # 12 hours
-
-    def __init__(self):
-        self.timers = {}

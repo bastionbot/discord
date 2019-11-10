@@ -43,7 +43,10 @@ async def test_handle_function_called_with_args():
     name = 'timer_name'
     timer = Timer(timeout, mock_callback, name, *args, **kwargs)
 
-    await timer.handle_function()
+    await timer.run()
 
     mock_callback.assert_called_once_with(*args, **kwargs)
+
+    # Cleanup
+    timer.cancel()
 

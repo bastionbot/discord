@@ -9,6 +9,8 @@ from bastion.utils.trackers import Timer
 
 class Track(Cog):
 
+    DEFAULT_TIMEOUT = 60 * 60 * 12 # 12 hours
+
     def __init__(self, bot):
         self.bot = bot
         self.timers = {}
@@ -53,7 +55,7 @@ class Track(Cog):
         await ctx.send(f"I'm currently tracking the following GoFundMe pages!\n>>> {threads}")
 
     @track.command()
-    async def start(self, ctx, url):
+    async def start(self, ctx, url, timeout=DEFAULT_TIMEOUT):
         """
         Give the bot a URL to track a gofundme!
         E.g. @Bastion track start https://www.gofundme.com/f/help-ben-finish-college
@@ -63,11 +65,10 @@ class Track(Cog):
             await ctx.send(f'<{url}> is not a valid GoFundMe page')
             return
         name = url.split('/')[-1]
-        timer = Timer(43200, gofundme, name, url, ctx)
-        timer.start()
+        timer = Timer(timeout, gofundme, name, url, ctx)
         self.timers[name] = timer
         await ctx.send(f'Started tracking {name}')
-        await gofundme(url, ctx)
+        await timer.run()
 
 
 def setup(bot):
