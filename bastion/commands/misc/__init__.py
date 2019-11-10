@@ -54,6 +54,25 @@ class Misc(Cog):
         else:
             await ctx.send(result)
 
+    @command(aliases=['is'])
+    async def is_art(self, ctx, art=None):
+        """
+        Answers the immortal question, "Is this art?"
+        """
+        answers = [ 'most certainly is',
+                   'definitely is',
+                   'absolutely is not',
+                   'possibly could be',
+                   'is not at all',
+                   'is',
+                   'is not',
+                   'could not be',
+                   'could be nothing other than' ]
+        if art is not None:
+            await ctx.send(f'**It {random.choice(answers)} art**')
+        else:
+            await ctx.send(f'**Art is everywhere**')
+
 
 def setup(bot):
     bot.add_cog(Misc())
