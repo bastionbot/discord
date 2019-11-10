@@ -18,7 +18,7 @@ class Timer():
         self.callback_kwargs = callback_kwargs
         self.task = None
 
-    def start(self):
+    async def start(self):
         self.task = asyncio.create_task(self.handle_function())
 
     async def handle_function(self):
