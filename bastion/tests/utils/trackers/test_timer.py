@@ -6,7 +6,7 @@ from unittest.mock import patch, MagicMock
 import pytest
 from asynctest import CoroutineMock
 
-from bastion.utils.trackers import Timer, _handle_function
+from bastion.utils.trackers import Timer
 
 
 async def mock_fn(*args, **kwargs):
@@ -34,32 +34,30 @@ def test_create_timer():
     assert timer_2.callback_kwargs == {}
 
 
-@pytest.mark.asyncio
 @patch('asyncio.create_task')
-async def test_start_calls_asyncio_and_timer_cancellation(create_task_mock):
-    # This test raises a " RuntimeWarning: coroutine 'Timer.handle_function' was never awaited" warning,
-    # but in this case it's safe to ignore because we are just asserting that `create_task` was
-    # called with that coroutine.
-    task_mock = MagicMock()
-    create_task_mock.return_value = task_mock
+def test_start_calls_asyncio_and_timer_cancellation(create_task_mock):
     timeout = 0
     name = 'timer_name'
     timer = Timer(timeout, mock_fn, name)
 
-    await timer.start()
-    timer.cancel() # Let's cancel the timer to prevent yet another warning, and test it, while we are at it.
-    await asyncio.sleep(1) # Let's sleep for one second so the task can cancel
+    timer.start()
 
-    assert create_task_mock.is_called_with(timer.handle_function())
-    assert timer.task.cancelled() == True
+    create_task_mock.assert_called_with(timer.handle_function)
 
 
 @pytest.mark.asyncio
-async def test_handle_function_called_with_args():
+async def test_handle_function_callback_is_called_with_args():
+    start_mock = MagicMock()
     mock_callback = CoroutineMock()
     args = (1, 2, 3)
     kwargs = {"a": 1}
+    timeout = 0
+    name = 'timer_name'
+    timer = Timer(timeout, mock_callback, name, *args, **kwargs)
+    timer.start = start_mock
 
-    await _handle_function(mock_callback, *args, **kwargs)
+    await timer.handle_function()
+
     mock_callback.assert_called_once_with(*args, **kwargs)
+    start_mock.assert_called_once()
 
