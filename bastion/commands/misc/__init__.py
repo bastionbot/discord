@@ -1,8 +1,7 @@
-import random
 from discord import utils, Embed
 from discord.ext.commands import Cog, command, group
 
-from bastion.commands.misc import eight_ball, roll_dice
+from bastion.commands.misc import eight_ball, roll_dice, decide, is_art
 
 class Misc(Cog):
     """
@@ -59,19 +58,7 @@ class Misc(Cog):
         """
         Answers the immortal question, "Is this art?"
         """
-        answers = [ 'most certainly is',
-                   'definitely is',
-                   'absolutely is not',
-                   'possibly could be',
-                   'is not at all',
-                   'is',
-                   'is not',
-                   'could not be',
-                   'could be nothing other than' ]
-        if art is not None:
-            await ctx.send(f'**It {random.choice(answers)} art**')
-        else:
-            await ctx.send(f'**Art is everywhere**')
+        await ctx.send(f'**{is_art.is_art(art)}**')
 
 
 def setup(bot):
