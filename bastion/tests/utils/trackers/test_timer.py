@@ -34,30 +34,16 @@ def test_create_timer():
     assert timer_2.callback_kwargs == {}
 
 
-@patch('asyncio.create_task')
-def test_start_calls_asyncio_and_timer_cancellation(create_task_mock):
-    timeout = 0
-    name = 'timer_name'
-    timer = Timer(timeout, mock_fn, name)
-
-    timer.start()
-
-    create_task_mock.assert_called_with(timer.handle_function)
-
-
 @pytest.mark.asyncio
-async def test_handle_function_callback_is_called_with_args():
-    start_mock = MagicMock()
+async def test_handle_function_called_with_args():
     mock_callback = CoroutineMock()
     args = (1, 2, 3)
     kwargs = {"a": 1}
     timeout = 0
     name = 'timer_name'
     timer = Timer(timeout, mock_callback, name, *args, **kwargs)
-    timer.start = start_mock
 
     await timer.handle_function()
 
     mock_callback.assert_called_once_with(*args, **kwargs)
-    start_mock.assert_called_once()
 
