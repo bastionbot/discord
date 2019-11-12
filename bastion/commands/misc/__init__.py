@@ -53,7 +53,7 @@ class Misc(Cog):
         else:
             await ctx.send(result)
 
-    @command(aliases=['is'])
+    @command(aliases=['is', 'Is'])
     async def is_art(self, ctx, art=None):
         """
         Answers the immortal question, "Is this art?"
