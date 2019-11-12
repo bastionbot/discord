@@ -51,7 +51,7 @@ CHOICES = {
 
 DEFAULT_WEIGHTS = [50, 25, 25]
 
-def get_answer(question, weigths=None):
+def get_answer(question, weights=None):
     if not question:
         raise ValueError('An answer without a question is meaningless.')
     if weights is None:
