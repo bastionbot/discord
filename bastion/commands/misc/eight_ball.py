@@ -54,9 +54,9 @@ DEFAULT_WEIGHTS = [50, 25, 25]
 def get_answer(question, weigths=None):
     if not question:
         raise ValueError('An answer without a question is meaningless.')
-    if weigths is None:
-        weigths = DEFAULT_WEIGHTS
+    if weights is None:
+        weights = DEFAULT_WEIGHTS
     # random.choices returns a list with size k (default 1), so the key is the first element
-    key = random.choices(['POSITIVE_CHOICES', 'NEGATIVE_CHOICES', 'MAYBE_CHOICES'], weigths)[0]
+    key = random.choices(['POSITIVE_CHOICES', 'NEGATIVE_CHOICES', 'MAYBE_CHOICES'], weights)[0]
     return random.choice(CHOICES[key])
 
