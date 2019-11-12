@@ -1,0 +1,11 @@
+[Unit]
+Description=Discord bot, say hello Bastion!
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/env python3 /opt/discord/bastion.py
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
+Alias=bastion.service
