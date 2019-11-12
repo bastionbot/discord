@@ -1,2 +1,4 @@
 ipython
 ipdb
+pytest
+pytest-asyncio
