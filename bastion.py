@@ -7,7 +7,7 @@ from bastion import init_bastion
 def main():
     logging.basicConfig(level=logging.WARN)
     config = ConfigParser()
-    config.read('/opt/bastion/config.ini')
+    config.read('/opt/discord/config.ini')
 
     bastion = init_bastion(config)
 
