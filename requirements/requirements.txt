@@ -5,7 +5,7 @@ backcall==0.1.0
 beautifulsoup4==4.8.1
 chardet==3.0.4
 decorator==4.4.0
-discord.py==1.2.3
+discord.py==1.2.5
 idna==2.8
 idna-ssl==1.1.0
 ipdb==0.12.2
