@@ -19,7 +19,7 @@ class BastionBot(Bot):
 
 
 def init_bastion(config):
-    bastion = BastionBot(config, discord_commands.when_mentioned,
+    bastion = BastionBot(config, discord_commands.when_mentioned_or('!'),
                          guild_subscriptions=False,
                          fetch_offline_members=False)
     bastion.load_extension('bastion.commands.roles')
