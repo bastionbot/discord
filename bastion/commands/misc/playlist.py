@@ -5,10 +5,9 @@ def build_playlist():
     config = ConfigParser()
     config.read('/opt/discord/config.ini')
     channel = get_channel(id=config['channel']['muzak'])
-    messages = await channel.history().flatten()
     links = ['youtube.com', 'youtu.be']
     videos = []
-    for message in messages:
+    async for message in channel.history():
         if any links in message.content:
             videos.append(re.findall('(http[^\s]+)'', message.content))
     print(videos)
