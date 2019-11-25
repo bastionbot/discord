@@ -60,7 +60,7 @@ class Misc(Cog):
         """
         await ctx.send(f'**{is_art.is_art(art)}**')
     @command()
-    async def playlist():
+    async def playlist(self, ctx):
         await ctx.send(f'Bulding playlist, please wait...')
         await ctx.send(f'{playlist()}')
 
