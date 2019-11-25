@@ -21,7 +21,8 @@ class BastionBot(Bot):
 def init_bastion(config):
     bastion = BastionBot(config, discord_commands.when_mentioned_or('!'),
                          guild_subscriptions=False,
-                         fetch_offline_members=False)
+                         fetch_offline_members=False,
+                         activity="@{0} help or !help".format(self.user))
     bastion.load_extension('bastion.commands.roles')
     bastion.load_extension('bastion.commands.misc')
     bastion.load_extension('bastion.commands.track')

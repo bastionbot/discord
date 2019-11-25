@@ -1,7 +1,7 @@
 from discord import utils, Embed
 from discord.ext.commands import Cog, command, group
 
-from bastion.commands.misc import eight_ball, roll_dice, decide, is_art
+from bastion.commands.misc import eight_ball, roll_dice, decide, is_art, playlist
 
 class Misc(Cog):
     """
@@ -59,6 +59,11 @@ class Misc(Cog):
         Answers the immortal question, "Is this art?"
         """
         await ctx.send(f'**{is_art.is_art(art)}**')
+    @command()
+    async def playlist():
+        await ctx.send(f'Bulding playlist, please wait...')
+        await ctx.send(f'{playlist()}')
+
 
 
 def setup(bot):
