@@ -1,4 +1,4 @@
-import re
+import re, asyncio
 from discord.utils import get_channel
 
 def build_playlist():
