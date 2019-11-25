@@ -1,5 +1,6 @@
 from discord.ext import commands as discord_commands
 from discord.ext.commands import Bot
+from discord import activity
 
 
 class BastionBot(Bot):
@@ -10,7 +11,7 @@ class BastionBot(Bot):
 
     async def on_ready(self):
         print('Logged on as {0}!'.format(self.user))
-        self.activity=discord.activity(name="@{0} help or !help".format(self.user), state="Extremely Online")
+        self.activity=activity(name="@{0} help or !help".format(self.user), state="Extremely Online")
 
     async def on_guild_available(self, guild):
         self.get_cog('Roles').register_bot_roles(guild)
