@@ -1,7 +1,7 @@
 import re, asyncio
 from discord.utils import get_channel
 
-def build_playlist():
+async def build_playlist():
     config = ConfigParser()
     config.read('/opt/discord/config.ini')
     channel = get_channel(id=config['channel']['muzak'])
