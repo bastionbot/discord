@@ -1,4 +1,5 @@
 import re, asyncio, discord
+from configparser import ConfigParser
 
 async def build_playlist():
     config = ConfigParser()
