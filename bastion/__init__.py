@@ -10,6 +10,7 @@ class BastionBot(Bot):
 
     async def on_ready(self):
         print('Logged on as {0}!'.format(self.user))
+        self.activity="@{0} help or !help".format(self.user)
 
     async def on_guild_available(self, guild):
         self.get_cog('Roles').register_bot_roles(guild)
@@ -21,8 +22,7 @@ class BastionBot(Bot):
 def init_bastion(config):
     bastion = BastionBot(config, discord_commands.when_mentioned_or('!'),
                          guild_subscriptions=False,
-                         fetch_offline_members=False,
-                         activity="@{0} help or !help".format(self.user))
+                         fetch_offline_members=False)
     bastion.load_extension('bastion.commands.roles')
     bastion.load_extension('bastion.commands.misc')
     bastion.load_extension('bastion.commands.track')
