@@ -62,7 +62,7 @@ class Misc(Cog):
     @command()
     async def playlist(self, ctx):
         await ctx.send(f'Bulding playlist, please wait...')
-        await ctx.send(f'{playlist.build_playlist()}')
+        await ctx.send(f'{await playlist.build_playlist()}')
 
 
 
