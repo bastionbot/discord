@@ -4,7 +4,7 @@ from configparser import ConfigParser
 async def build_playlist(self):
     config = ConfigParser()
     config.read('/opt/discord/config.ini')
-    channel = self.get_channel(channel_id=config['channel']['muzak'])
+    channel = bastion.get_channel(channel_id=config['channel']['muzak'])
     links = ['youtube.com', 'youtu.be']
     videos = []
     async for message in channel.history():

@@ -13,6 +13,7 @@ class BastionBot(Bot):
         print('Logged on as {0}!'.format(self.user))
         thing = Activity(name="@{0} help or !help".format(self.user), state="Extremely Online")
         await self.change_presence(activity=thing)
+        print(thing)
 
     async def on_guild_available(self, guild):
         self.get_cog('Roles').register_bot_roles(guild)
