@@ -1,6 +1,6 @@
 import re, asyncio
 from configparser import ConfigParser
-
+import pdb
 async def build_playlist(self, ctx):
     config = ConfigParser()
     config.read('/opt/discord/config.ini')
@@ -8,6 +8,7 @@ async def build_playlist(self, ctx):
     links = ['youtube.com', 'youtu.be']
     videos = []
     async for message in channel.history():
+        pdb.set_trace()
         if any(links in message.content):
             videos.append(re.findall('(http[^\s]+)', message.content))
     print(videos)
