@@ -61,11 +61,12 @@ class Misc(Cog):
         await ctx.send(f'**{is_art.is_art(art)}**')
     @command()
     async def playlist(self, ctx):
+        """
+        Builds a playlist from youtube videos posted in muzak!
+        """
         await ctx.send(f'Bulding playlist, please wait...')
         temp = await playlist.build_playlist(self)
         await ctx.send(f'{temp}')
-
-
 
 def setup(bot):
     bot.add_cog(Misc())
