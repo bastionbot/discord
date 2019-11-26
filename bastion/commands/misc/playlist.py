@@ -1,11 +1,10 @@
 import re, asyncio
 from configparser import ConfigParser
-from discord.Client import get_channel
 
-async def build_playlist():
+async def build_playlist(self):
     config = ConfigParser()
     config.read('/opt/discord/config.ini')
-    channel = get_channel(channel_id=config['channel']['muzak'])
+    channel = self.get_channel(channel_id=config['channel']['muzak'])
     links = ['youtube.com', 'youtu.be']
     videos = []
     async for message in channel.history():
