@@ -1,10 +1,8 @@
 import re, asyncio
 
 async def build_playlist(self, ctx):
-    chan = ctx.bot.config['channel']['muzak']
-    print(chan)
-    channel = ctx.bot.get_channel()
-    print(channel)
+    chan = int(ctx.bot.config['channel']['muzak'])
+    channel = ctx.bot.get_channel(chan)
     links = ['youtube.com', 'youtu.be']
     videos = []
     messages = await channel.history().flatten()
