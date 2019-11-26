@@ -65,7 +65,7 @@ class Misc(Cog):
         Builds a playlist from youtube videos posted in muzak!
         """
         await ctx.send(f'Bulding playlist, please wait...')
-        temp = await playlist.build_playlist(self)
+        temp = await playlist.build_playlist(self, ctx)
         await ctx.send(f'{temp}')
 
 def setup(bot):
