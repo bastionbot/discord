@@ -7,6 +7,7 @@ class BastionBot(Bot):
 
     def __init__(self, config, *args, **kwargs):
         self.token = config['client']['token']
+        self.config = config
         super().__init__(*args, **kwargs)
 
     async def on_ready(self):
