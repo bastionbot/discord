@@ -41,7 +41,7 @@ class Roles(Cog):
                 'name': ctx.guild.name,
                 'icon_url': str(ctx.guild.icon_url),
             },
-            'description': 'Reminder: Roles higher on the list will have priority on your color.',
+            'description': 'Reminder: Roles higher on the list will have priority on your color.\nRoles are case sensitive!',
             'color': 0x40FEF3,
             'fields': [{
                 'name': 'Roles',
