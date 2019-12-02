@@ -22,7 +22,7 @@ class Track(Cog):
         """
         if ctx.invoked_subcommand is not None:
             return
-        await ctx.send(f'Command not found. Type `@{self.bot.user} help track` for a list of commands.')
+        await ctx.send(f'Command not found. Type `!help track or @{self.bot.user} help track` for a list of commands.')
 
     @track.command()
     async def stop(self, ctx, name):
@@ -38,7 +38,7 @@ class Track(Cog):
             return
         await ctx.send(
             f'Tracking by the name of {name} not found. Did you spell the name correctly? '
-            f'Type `@{self.bot.user} track list` for a list of active trackings.'
+            f'Type `!track list or @{self.bot.user} track list` for a list of active trackings.'
         )
 
     @track.command()
