@@ -22,7 +22,7 @@ class Roles(Cog):
         """
         if ctx.invoked_subcommand is not None:
             return
-        await ctx.send(f'Command not found. Type `@{self.bot.user} help role` for a list of commands.')
+        await ctx.send(f'Command not found. Type `!help role or @{self.bot.user} help role` for a list of commands.')
 
     @role.command()
     async def list(self, ctx):
