@@ -11,9 +11,9 @@ def _parse(dice):
     if not faces:
         raise ValueError(f'Cannot extract number of faces from {dice}.')
     if not str(faces).isdigit():
-        faces = sum(ord(ch) for ch in dice)
+        faces = sum(ord(ch) for ch in faces)
     if not str(qty).isdigit():
-        qty = sum(ord(ch) for ch in dice)
+        qty = sum(ord(ch) for ch in qty)
     if not qty:
         qty = 1
     return (int(qty), int(faces))
