@@ -12,10 +12,10 @@ def _parse(dice):
         raise ValueError(f'Cannot extract number of faces from {dice}.')
     if not str(faces).isdigit():
         faces = sum(ord(ch) for ch in faces)
-    if not str(qty).isdigit():
-        qty = sum(ord(ch) for ch in qty)
     if not qty:
         qty = 1
+    if not str(qty).isdigit():
+        qty = sum(ord(ch) for ch in qty)
     return (int(qty), int(faces))
 
 def roll(dice):
