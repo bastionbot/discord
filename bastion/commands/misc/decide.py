@@ -4,7 +4,7 @@ CHOICES = [
     '**{thing}**, now get out there and put those pucks in the net.',
     "DO IT!! JUST DO IT!! Don't let your **{thing}** dreams be dreams.",
     '\\*nuzzles ur **{thing}**\\*',
-    'Your momma so weird she wrote **{thing}** on her bucket list.',
+    '**{thing}** is the single best idea I\'ve ever heard, yo.',
     'The world must **{thing}**.',
     '**{thing}** fucks. Get up in them guts.',
     'The high council has concluded that **{thing}** is it, chief.',
