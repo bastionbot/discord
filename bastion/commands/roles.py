@@ -30,7 +30,7 @@ class Roles(Cog):
         Lists joinable roles.
         Roles higher up in the list have priority when overriding colors.
         """
-        roles = reversed(self.role_manager.get_available_roles(ctx.guild))
+        roles = reversed(list(self.role_manager.get_available_roles(ctx.guild).keys()))
         if not roles:
             await ctx.send('Could not find any roles! Check if my lowermost role is correctly positioned.')
             return
@@ -41,11 +41,11 @@ class Roles(Cog):
                 'name': ctx.guild.name,
                 'icon_url': str(ctx.guild.icon_url),
             },
-            'description': 'Reminder: Roles higher on the list will have priority on your color.\nRoles are case sensitive!',
+            'description': 'Reminder: Roles higher on the list will have priority on your color.',
             'color': 0x40FEF3,
             'fields': [{
                 'name': 'Roles',
-                'value': '\n'.join([role.name for role in roles]),
+                'value': '\n'.join(roles),
             }],
         })
 
@@ -59,17 +59,18 @@ class Roles(Cog):
 
         action = ctx.author.add_roles if add_role else ctx.author.remove_roles
 
-        role = utils.get(ctx.guild.roles, name=role_name)
+        roles = {role.name.lower():role.id for role in ctx.guild.roles}
+        role = utils.get(ctx.guild.roles, id=roles[role_name.lower()])
         if not role:
             await ctx.send('Role not found.')
             return
 
         available_roles = self.role_manager.get_available_roles(ctx.guild)
-        if role not in available_roles:
+        if role.name.lower() not in [x.lower() for x in available_roles.keys()]:
             await ctx.send(f'I cannot {present_verb} roles higher than my own.')
             return
 
-        await action(role)
+        await action(role,reason="User-managed via bot")
         await ctx.send(f'Succesfully {past_verb} {role.name} {preposition} {ctx.author.nick if ctx.author.nick else ctx.author.name}.')
 
 
