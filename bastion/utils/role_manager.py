@@ -16,12 +16,12 @@ class RoleManager():
         """
         Gets the roles that the bot can add to the other users
         """
-        roles = []
+        roles = {}
         bot_roles_ids = self.role_map[guild.id]
         # We skip the first role, as it is @everyone
         for role in guild.roles[1:]:
             # We break out on the first role that the bot has, just to be safe
             if role.id in bot_roles_ids:
                 break
-            roles.append(role)
+            roles[role.name] = role.id
         return roles
