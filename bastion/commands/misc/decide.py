@@ -18,7 +18,9 @@ CHOICES = [
     'Verily, I counsel thee for **{thing}**.',
     '**{thing}** smothered in sausage gravy, with a side of hashbrowns, and slices of bacon.',
     '**{thing}** was elected class president!',
-    'This just in, **{thing}** is the new hotness!'
+    'This just in, **{thing}** is the new hotness!',
+    '**{thing}** may contain wheat/gluten, milk, eggs, peanuts, tree nuts, fish, shellfish, or soy.',
+    "I really don't think **{thing}** is a good idea, buddy."
 ]
 
 NOT_ENOUGH_OPTIONS_PHRASE = 'I need to have at least two options!'
