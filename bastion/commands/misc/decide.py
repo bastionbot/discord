@@ -19,7 +19,7 @@ CHOICES = [
     '**{thing}** smothered in sausage gravy, with a side of hashbrowns, and slices of bacon.',
     '**{thing}** was elected class president!',
     'This just in, **{thing}** is the new hotness!',
-    '**{thing}** may contain wheat/gluten, milk, eggs, peanuts, tree nuts, fish, shellfish, or soy.',
+    '**{thing}** may contain wheat/gluten, milk, eggs, peanuts, tree nuts, fish, shellfish, or soy.'
 ]
 
 NOT_ENOUGH_OPTIONS_PHRASE = 'I need to have at least two options!'
