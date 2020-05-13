@@ -10,7 +10,7 @@ CHOICES = [
     'The high council has concluded that **{thing}** is it, chief.',
     '**{thing}** might be good, yeah.',
     '**{thing}** is fucked up. Hell yeah.',
-    "**{thing}** S'es D's.",
+    "**{thing}** ain't the coolest, but that's just my opinion.",
     "Check out my huge **{thing}**. Isn't it gross?",
     'Duh, **{thing}**.',
     'Obviously **{thing}**.',
