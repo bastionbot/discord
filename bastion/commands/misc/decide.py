@@ -10,7 +10,7 @@ CHOICES = [
     'The high council has concluded that **{thing}** is it, chief.',
     '**{thing}** might be good, yeah.',
     '**{thing}** is fucked up. Hell yeah.',
-    "**{thing}** ain't the coolest, but that's just my opinion.",
+    "**{thing}** is the coolest, but that's just my opinion.",
     "Extra! Extra! Read all about **{thing}**!",
     'Duh, **{thing}**.',
     'Obviously **{thing}**.',
@@ -20,7 +20,6 @@ CHOICES = [
     '**{thing}** was elected class president!',
     'This just in, **{thing}** is the new hotness!',
     '**{thing}** may contain wheat/gluten, milk, eggs, peanuts, tree nuts, fish, shellfish, or soy.',
-    "I really don't think **{thing}** is a good idea, buddy."
 ]
 
 NOT_ENOUGH_OPTIONS_PHRASE = 'I need to have at least two options!'
