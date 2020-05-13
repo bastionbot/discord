@@ -6,17 +6,19 @@ CHOICES = [
     '\\*nuzzles ur **{thing}**\\*',
     '**{thing}** is the single best idea I\'ve ever heard, yo.',
     'The world must **{thing}**.',
-    '**{thing}** fucks. Get up in them guts.',
+    "**{thing}** is kickin' rad!",
     'The high council has concluded that **{thing}** is it, chief.',
     '**{thing}** might be good, yeah.',
     '**{thing}** is fucked up. Hell yeah.',
     "**{thing}** ain't the coolest, but that's just my opinion.",
-    "Check out my huge **{thing}**. Isn't it gross?",
+    "Extra! Extra! Read all about **{thing}**!",
     'Duh, **{thing}**.',
     'Obviously **{thing}**.',
     'Definitely **{thing}**.',
     'Verily, I counsel thee for **{thing}**.',
     '**{thing}** smothered in sausage gravy, with a side of hashbrowns, and slices of bacon.',
+    '**{thing}** was elected class president!',
+    'This just in, **{thing}** is the new hotness!'
 ]
 
 NOT_ENOUGH_OPTIONS_PHRASE = 'I need to have at least two options!'
