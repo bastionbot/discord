@@ -20,7 +20,7 @@ CHOICES = {
         'Signs point to yes.',
         'Yes.',
         'Yes – definitely.',
-        'You may rely on it.'
+        'You may rely on it.',
         'Without a doubt.',
     ],
     'NEGATIVE_CHOICES': [
