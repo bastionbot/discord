@@ -11,6 +11,12 @@ Intended to provide general utility commands for users, and some fun stuff as we
 4) `systemctl daemon-reload`
 5) `systemctl start bastion`
 
+Alternatively,
+1) clone into `/opt/discord`
+2) Create `/opt/discord/config.ini` with the two lines,`[client]` and `token = <bot token goes here>`
+3) docker build -t bastion /opt/discord
+4) docker run -d bastion
+
 ## Features
 
     * Self-service role management
