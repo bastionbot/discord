@@ -51,7 +51,7 @@ class Roles(Cog):
                 keep.append(temp_roles)
             
         # We will probably have to paginate this later
-        {
+        tmp_dict = {
             'author': {
                 'name': ctx.guild.name,
                 'icon_url': str(ctx.guild.icon_url),
@@ -63,7 +63,7 @@ class Roles(Cog):
                 'value': '\n'.join(x),
             } for x in keep],
         }
-        embed = Embed.from_dict()
+        embed = Embed.from_dict(tmp_dict)
 
         await ctx.send(embed=embed)
 
