@@ -30,7 +30,7 @@ class Roles(Cog):
         Lists joinable roles.
         Roles higher up in the list have priority when overriding colors.
         """
-        roles = reversed(list(self.role_manager.get_available_roles(ctx.guild).keys()))
+        roles = list(reversed(list(self.role_manager.get_available_roles(ctx.guild).keys())))
         if not roles:
             await ctx.send('Could not find any roles! Check if my lowermost role is correctly positioned.')
             return
