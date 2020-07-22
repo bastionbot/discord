@@ -42,7 +42,7 @@ class Roles(Cog):
                 await ctx.send('Some clown managed to make a role over 1000 characters long, please tell beepl and also discord about this: ```{}```'.format(roles[i]))
                 return
             tmp += len(roles[i])
-            if tmp > 100:
+            if tmp > 1000:
                 tmp = 0
                 keep.append(temp_roles)
                 temp_roles = []
