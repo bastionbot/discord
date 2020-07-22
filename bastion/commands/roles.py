@@ -34,9 +34,24 @@ class Roles(Cog):
         if not roles:
             await ctx.send('Could not find any roles! Check if my lowermost role is correctly positioned.')
             return
-
+        keep = []
+        temp_roles = []
+        tmp = 0
+        for i in range(len(roles)):
+	        if len(roles[i]) >= 1000:
+		        await ctx.send('Some clown managed to make a role over 1000 characters long, please tell beepl and also discord about this: ```{}```'.format(roles[i]))
+		        return
+	        tmp += len(roles[i])
+	        if tmp > 100:
+                tmp = 0
+                keep.append(temp_roles)
+                temp_roles = []
+                temp_roles.append(roles[i])
+                if i+1 == len(roles):
+                    keep.append(temp_roles)
+            
         # We will probably have to paginate this later
-        embed = Embed.from_dict({
+        {
             'author': {
                 'name': ctx.guild.name,
                 'icon_url': str(ctx.guild.icon_url),
@@ -44,10 +59,11 @@ class Roles(Cog):
             'description': 'Reminder: Roles higher on the list will have priority on your color.',
             'color': 0x40FEF3,
             'fields': [{
-                'name': 'Roles',
-                'value': '\n'.join(roles),
-            }],
-        })
+                'name': 'Roles {} of {}'.format(keep.index(x)+1, len(keep)),
+                'value': '\n'.join(x),
+            } for x in keep],
+        }
+        embed = Embed.from_dict()
 
         await ctx.send(embed=embed)
 
