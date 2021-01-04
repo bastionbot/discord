@@ -51,7 +51,7 @@ class Roles(Cog):
                 if i+1 == len(roles):
                     keep.append(temp_roles)
         else:
-            continue
+            pass
         # We will probably have to paginate this later
         tmp_dict = {
             'author': {
